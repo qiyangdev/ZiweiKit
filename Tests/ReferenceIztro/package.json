@@ -1,0 +1,11 @@
+{
+  "name": "ziweicore-iztro-reference",
+  "private": true,
+  "description": "Pinned upstream oracle used to regenerate ZiweiCore parity fixtures.",
+  "scripts": {
+    "generate": "node generate-fixtures.cjs"
+  },
+  "dependencies": {
+    "iztro": "2.5.8"
+  }
+}

@@ -1,0 +1,1682 @@
+[
+  {
+    "input": {
+      "id": "1901-小寒-0",
+      "date": "1901-01-06",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "鼠",
+      "yearly": "庚子",
+      "monthly": "戊子",
+      "daily": "甲申",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-小寒-12",
+      "date": "1901-01-06",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "鼠",
+      "yearly": "庚子",
+      "monthly": "己丑",
+      "daily": "乙酉",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-立春-0",
+      "date": "1901-02-04",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "己丑",
+      "daily": "癸丑",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-立春-12",
+      "date": "1901-02-04",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "庚寅",
+      "daily": "甲寅",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-惊蛰-0",
+      "date": "1901-03-06",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "庚寅",
+      "daily": "癸未",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-惊蛰-12",
+      "date": "1901-03-06",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "辛卯",
+      "daily": "甲申",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-清明-0",
+      "date": "1901-04-05",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "辛卯",
+      "daily": "癸丑",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-清明-12",
+      "date": "1901-04-05",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "壬辰",
+      "daily": "甲寅",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-立夏-0",
+      "date": "1901-05-06",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "壬辰",
+      "daily": "甲申",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-立夏-12",
+      "date": "1901-05-06",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "癸巳",
+      "daily": "乙酉",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-芒种-0",
+      "date": "1901-06-06",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "癸巳",
+      "daily": "乙卯",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-芒种-12",
+      "date": "1901-06-06",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "甲午",
+      "daily": "丙辰",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-小暑-0",
+      "date": "1901-07-08",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "甲午",
+      "daily": "丁亥",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-小暑-12",
+      "date": "1901-07-08",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "乙未",
+      "daily": "戊子",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-立秋-0",
+      "date": "1901-08-08",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "乙未",
+      "daily": "戊午",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-立秋-12",
+      "date": "1901-08-08",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "丙申",
+      "daily": "己未",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-白露-0",
+      "date": "1901-09-08",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "丙申",
+      "daily": "己丑",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-白露-12",
+      "date": "1901-09-08",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "丁酉",
+      "daily": "庚寅",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-寒露-0",
+      "date": "1901-10-09",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "丁酉",
+      "daily": "庚申",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-寒露-12",
+      "date": "1901-10-09",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "戊戌",
+      "daily": "辛酉",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-立冬-0",
+      "date": "1901-11-08",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "戊戌",
+      "daily": "庚寅",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-立冬-12",
+      "date": "1901-11-08",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "己亥",
+      "daily": "辛卯",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-大雪-0",
+      "date": "1901-12-08",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "己亥",
+      "daily": "庚申",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "1901-大雪-12",
+      "date": "1901-12-08",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "辛丑",
+      "monthly": "庚子",
+      "daily": "辛酉",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-小寒-0",
+      "date": "1950-01-06",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "己丑",
+      "monthly": "丙子",
+      "daily": "辛丑",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-小寒-12",
+      "date": "1950-01-06",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "牛",
+      "yearly": "己丑",
+      "monthly": "丁丑",
+      "daily": "壬寅",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-立春-0",
+      "date": "1950-02-04",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "丁丑",
+      "daily": "庚午",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-立春-12",
+      "date": "1950-02-04",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "戊寅",
+      "daily": "辛未",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-惊蛰-0",
+      "date": "1950-03-06",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "戊寅",
+      "daily": "庚子",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-惊蛰-12",
+      "date": "1950-03-06",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "己卯",
+      "daily": "辛丑",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-清明-0",
+      "date": "1950-04-05",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "己卯",
+      "daily": "庚午",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-清明-12",
+      "date": "1950-04-05",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "庚辰",
+      "daily": "辛未",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-立夏-0",
+      "date": "1950-05-06",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "庚辰",
+      "daily": "辛丑",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-立夏-12",
+      "date": "1950-05-06",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "辛巳",
+      "daily": "壬寅",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-芒种-0",
+      "date": "1950-06-06",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "辛巳",
+      "daily": "壬申",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-芒种-12",
+      "date": "1950-06-06",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "壬午",
+      "daily": "癸酉",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-小暑-0",
+      "date": "1950-07-08",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "壬午",
+      "daily": "甲辰",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-小暑-12",
+      "date": "1950-07-08",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "癸未",
+      "daily": "乙巳",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-立秋-0",
+      "date": "1950-08-08",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "癸未",
+      "daily": "乙亥",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-立秋-12",
+      "date": "1950-08-08",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "甲申",
+      "daily": "丙子",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-白露-0",
+      "date": "1950-09-08",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "甲申",
+      "daily": "丙午",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-白露-12",
+      "date": "1950-09-08",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "乙酉",
+      "daily": "丁未",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-寒露-0",
+      "date": "1950-10-09",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "乙酉",
+      "daily": "丁丑",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-寒露-12",
+      "date": "1950-10-09",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "丙戌",
+      "daily": "戊寅",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-立冬-0",
+      "date": "1950-11-08",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "丙戌",
+      "daily": "丁未",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-立冬-12",
+      "date": "1950-11-08",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "丁亥",
+      "daily": "戊申",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-大雪-0",
+      "date": "1950-12-08",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "戊子",
+      "daily": "丁丑",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "1950-大雪-12",
+      "date": "1950-12-08",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "虎",
+      "yearly": "庚寅",
+      "monthly": "戊子",
+      "daily": "戊寅",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-小寒-0",
+      "date": "2000-01-06",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "兔",
+      "yearly": "己卯",
+      "monthly": "丙子",
+      "daily": "癸亥",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-小寒-12",
+      "date": "2000-01-06",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "兔",
+      "yearly": "己卯",
+      "monthly": "丁丑",
+      "daily": "甲子",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-立春-0",
+      "date": "2000-02-04",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "丁丑",
+      "daily": "壬辰",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-立春-12",
+      "date": "2000-02-04",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "戊寅",
+      "daily": "癸巳",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-惊蛰-0",
+      "date": "2000-03-05",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "戊寅",
+      "daily": "壬戌",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-惊蛰-12",
+      "date": "2000-03-05",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "己卯",
+      "daily": "癸亥",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-清明-0",
+      "date": "2000-04-04",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "己卯",
+      "daily": "壬辰",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-清明-12",
+      "date": "2000-04-04",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "庚辰",
+      "daily": "癸巳",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-立夏-0",
+      "date": "2000-05-05",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "庚辰",
+      "daily": "癸亥",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-立夏-12",
+      "date": "2000-05-05",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "辛巳",
+      "daily": "甲子",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-芒种-0",
+      "date": "2000-06-05",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "辛巳",
+      "daily": "甲午",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-芒种-12",
+      "date": "2000-06-05",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "壬午",
+      "daily": "乙未",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-小暑-0",
+      "date": "2000-07-07",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "壬午",
+      "daily": "丙寅",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-小暑-12",
+      "date": "2000-07-07",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "癸未",
+      "daily": "丁卯",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-立秋-0",
+      "date": "2000-08-07",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "癸未",
+      "daily": "丁酉",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-立秋-12",
+      "date": "2000-08-07",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "甲申",
+      "daily": "戊戌",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-白露-0",
+      "date": "2000-09-07",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "甲申",
+      "daily": "戊辰",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-白露-12",
+      "date": "2000-09-07",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "乙酉",
+      "daily": "己巳",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-寒露-0",
+      "date": "2000-10-08",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "乙酉",
+      "daily": "己亥",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-寒露-12",
+      "date": "2000-10-08",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "丙戌",
+      "daily": "庚子",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-立冬-0",
+      "date": "2000-11-07",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "丙戌",
+      "daily": "己巳",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-立冬-12",
+      "date": "2000-11-07",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "丁亥",
+      "daily": "庚午",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-大雪-0",
+      "date": "2000-12-07",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "丁亥",
+      "daily": "己亥",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "2000-大雪-12",
+      "date": "2000-12-07",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "龙",
+      "yearly": "庚辰",
+      "monthly": "戊子",
+      "daily": "庚子",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-小寒-0",
+      "date": "2050-01-05",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "蛇",
+      "yearly": "己巳",
+      "monthly": "丙子",
+      "daily": "乙酉",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-小寒-12",
+      "date": "2050-01-05",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "蛇",
+      "yearly": "己巳",
+      "monthly": "丁丑",
+      "daily": "丙戌",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-立春-0",
+      "date": "2050-02-03",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "丁丑",
+      "daily": "甲寅",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-立春-12",
+      "date": "2050-02-03",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "丁丑",
+      "daily": "乙卯",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-惊蛰-0",
+      "date": "2050-03-05",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "戊寅",
+      "daily": "甲申",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-惊蛰-12",
+      "date": "2050-03-05",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "己卯",
+      "daily": "乙酉",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-清明-0",
+      "date": "2050-04-04",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "己卯",
+      "daily": "甲寅",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-清明-12",
+      "date": "2050-04-04",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "庚辰",
+      "daily": "乙卯",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-立夏-0",
+      "date": "2050-05-05",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "庚辰",
+      "daily": "乙酉",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-立夏-12",
+      "date": "2050-05-05",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "辛巳",
+      "daily": "丙戌",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-芒种-0",
+      "date": "2050-06-05",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "辛巳",
+      "daily": "丙辰",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-芒种-12",
+      "date": "2050-06-05",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "壬午",
+      "daily": "丁巳",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-小暑-0",
+      "date": "2050-07-07",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "壬午",
+      "daily": "戊子",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-小暑-12",
+      "date": "2050-07-07",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "癸未",
+      "daily": "己丑",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-立秋-0",
+      "date": "2050-08-07",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "癸未",
+      "daily": "己未",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-立秋-12",
+      "date": "2050-08-07",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "甲申",
+      "daily": "庚申",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-白露-0",
+      "date": "2050-09-07",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "甲申",
+      "daily": "庚寅",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-白露-12",
+      "date": "2050-09-07",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "乙酉",
+      "daily": "辛卯",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-寒露-0",
+      "date": "2050-10-08",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "乙酉",
+      "daily": "辛酉",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-寒露-12",
+      "date": "2050-10-08",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "丙戌",
+      "daily": "壬戌",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-立冬-0",
+      "date": "2050-11-07",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "丙戌",
+      "daily": "辛卯",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-立冬-12",
+      "date": "2050-11-07",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "丁亥",
+      "daily": "壬辰",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-大雪-0",
+      "date": "2050-12-07",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "丁亥",
+      "daily": "辛酉",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "2050-大雪-12",
+      "date": "2050-12-07",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "庚午",
+      "monthly": "戊子",
+      "daily": "壬戌",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-小寒-0",
+      "date": "2099-01-05",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "戊午",
+      "monthly": "甲子",
+      "daily": "壬寅",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-小寒-12",
+      "date": "2099-01-05",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "马",
+      "yearly": "戊午",
+      "monthly": "乙丑",
+      "daily": "癸卯",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-立春-0",
+      "date": "2099-02-03",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "乙丑",
+      "daily": "辛未",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-立春-12",
+      "date": "2099-02-03",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "丙寅",
+      "daily": "壬申",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-惊蛰-0",
+      "date": "2099-03-05",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "丙寅",
+      "daily": "辛丑",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-惊蛰-12",
+      "date": "2099-03-05",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "丁卯",
+      "daily": "壬寅",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-清明-0",
+      "date": "2099-04-04",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "丁卯",
+      "daily": "辛未",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-清明-12",
+      "date": "2099-04-04",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "戊辰",
+      "daily": "壬申",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-立夏-0",
+      "date": "2099-05-05",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "戊辰",
+      "daily": "壬寅",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-立夏-12",
+      "date": "2099-05-05",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "己巳",
+      "daily": "癸卯",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-芒种-0",
+      "date": "2099-06-05",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "己巳",
+      "daily": "癸酉",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-芒种-12",
+      "date": "2099-06-05",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "庚午",
+      "daily": "甲戌",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-小暑-0",
+      "date": "2099-07-07",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "庚午",
+      "daily": "乙巳",
+      "hourly": "丙子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-小暑-12",
+      "date": "2099-07-07",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "辛未",
+      "daily": "丙午",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-立秋-0",
+      "date": "2099-08-07",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "辛未",
+      "daily": "丙子",
+      "hourly": "戊子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-立秋-12",
+      "date": "2099-08-07",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "壬申",
+      "daily": "丁丑",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-白露-0",
+      "date": "2099-09-07",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "壬申",
+      "daily": "丁未",
+      "hourly": "庚子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-白露-12",
+      "date": "2099-09-07",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "癸酉",
+      "daily": "戊申",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-寒露-0",
+      "date": "2099-10-08",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "癸酉",
+      "daily": "戊寅",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-寒露-12",
+      "date": "2099-10-08",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "甲戌",
+      "daily": "己卯",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-立冬-0",
+      "date": "2099-11-07",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "甲戌",
+      "daily": "戊申",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-立冬-12",
+      "date": "2099-11-07",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "乙亥",
+      "daily": "己酉",
+      "hourly": "甲子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-大雪-0",
+      "date": "2099-12-07",
+      "timeIndex": 0
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "乙亥",
+      "daily": "戊寅",
+      "hourly": "壬子"
+    }
+  },
+  {
+    "input": {
+      "id": "2099-大雪-12",
+      "date": "2099-12-07",
+      "timeIndex": 12
+    },
+    "expected": {
+      "zodiac": "羊",
+      "yearly": "己未",
+      "monthly": "丙子",
+      "daily": "己卯",
+      "hourly": "甲子"
+    }
+  }
+]
