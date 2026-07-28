@@ -1,5 +1,5 @@
 import SwiftUI
-import ZiweiCore
+import ZiweiKit
 
 struct ChartSummaryView: View {
   @State private var chart: Astrolabe?
@@ -16,7 +16,7 @@ struct ChartSummaryView: View {
           ProgressView("Calculating chart…")
         }
       }
-      .navigationTitle("ZiweiCore")
+      .navigationTitle("ZiweiKit")
       .navigationDestination(for: PalaceID.self) { palaceID in
         if let palace = chart?.palace(palaceID) {
           PalaceDetailView(palace: palace)

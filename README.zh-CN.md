@@ -1,13 +1,13 @@
-# ZiweiCore
+# ZiweiKit
 
 [English](README.md) | 简体中文
 
-ZiweiCore 是 [iztro](https://github.com/SylarLong/iztro) 计算层的纯 Swift
+ZiweiKit 是 [iztro](https://github.com/SylarLong/iztro) 计算层的纯 Swift
 移植，以 Swift Package 形式提供。运行时只依赖 Foundation，不嵌入 JavaScript，支持
 iOS、macOS、tvOS、watchOS 和 visionOS。
 
 ```swift
-import ZiweiCore
+import ZiweiKit
 
 let birthDate = try SolarDate(year: 2000, month: 8, day: 16)
 let chart = try Ziwei.chart(
@@ -42,7 +42,7 @@ let chart = try Ziwei.chart(
 ## 文档
 
 公共类型和计算入口提供 DocC 注释，另外包含入门、日期与时区、配置、运限和分析查询
-五篇指南。可以阅读[在线文档](https://qiyangdev.github.io/ZiweiCore/documentation/ziweicore/)，
+五篇指南。可以阅读[在线文档](https://qiyangdev.github.io/ZiweiKit/documentation/ziweikit/)，
 或在 Xcode 中打开仓库根目录，然后选择 **Product > Build Documentation**。
 
 配置采用每张命盘独立的不可变值，不使用 iztro 的全局可变配置：
@@ -67,18 +67,18 @@ let chart = try Ziwei.chart(
 
 ## SwiftUI 示例
 
-`Examples/ZiweiCoreExample` 是一个独立的 iOS 16+ SwiftUI Xcode 项目，展示固定日期
+`Examples/ZiweiKitExample` 是一个独立的 iOS 16+ SwiftUI Xcode 项目，展示固定日期
 排盘、命盘摘要、十二宫列表与星曜详情。示例工程通过本地 Package Dependency 使用
-仓库根目录的 `ZiweiCore`，不会向计算库添加 UI product，也不改变根包的纯 Swift
+仓库根目录的 `ZiweiKit`，不会向计算库添加 UI product，也不改变根包的纯 Swift
 Package 结构。
 
-直接双击 `Examples/ZiweiCoreExample/ZiweiCoreExample.xcodeproj`，或从命令行打开：
+直接双击 `Examples/ZiweiKitExample/ZiweiKitExample.xcodeproj`，或从命令行打开：
 
 ```sh
-open Examples/ZiweiCoreExample/ZiweiCoreExample.xcodeproj
+open Examples/ZiweiKitExample/ZiweiKitExample.xcodeproj
 ```
 
-在 Xcode 中选择 `ZiweiCoreExample` Scheme 和任意 iOS 16+ Simulator 后即可运行；保持
+在 Xcode 中选择 `ZiweiKitExample` Scheme 和任意 iOS 16+ Simulator 后即可运行；保持
 示例目录与仓库根目录的相对位置，Xcode 就能解析本地包依赖。
 
 ## 计算层覆盖
@@ -106,7 +106,7 @@ open Examples/ZiweiCoreExample/ZiweiCoreExample.xcodeproj
 
 `Tests/ReferenceIztro` 将原版固定为 `iztro@2.5.8`（上游提交
 `106d038cc5a30d6aff8fd987f7ed79090b6ad7ff`）。它生成的 JSON oracle 会提交到
-`Tests/ZiweiCoreTests/Fixtures`。中文 oracle 由测试 target 中的
+`Tests/ZiweiKitTests/Fixtures`。中文 oracle 由测试 target 中的
 `IztroOracleAdapter.swift` 转成强类型结果，不进入产品模块，所以普通 Swift 测试完全离线：
 
 ```sh

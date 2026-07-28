@@ -8,7 +8,7 @@ Construct a ``SolarDate`` or ``LunarDate``, select a ``ChineseHour``, and call
 ``Ziwei``:
 
 ```swift
-import ZiweiCore
+import ZiweiKit
 
 let birthDate = try SolarDate(year: 2000, month: 8, day: 16)
 let chart = try Ziwei.chart(

@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-  name: "ZiweiCore",
+  name: "ZiweiKit",
   platforms: [
     .iOS(.v16),
     .macOS(.v13),
@@ -12,13 +12,13 @@ let package = Package(
     .visionOS(.v1),
   ],
   products: [
-    .library(name: "ZiweiCore", targets: ["ZiweiCore"])
+    .library(name: "ZiweiKit", targets: ["ZiweiKit"])
   ],
   targets: [
-    .target(name: "ZiweiCore"),
+    .target(name: "ZiweiKit"),
     .testTarget(
-      name: "ZiweiCoreTests",
-      dependencies: ["ZiweiCore"],
+      name: "ZiweiKitTests",
+      dependencies: ["ZiweiKit"],
       resources: [.process("Fixtures")]
     ),
   ]

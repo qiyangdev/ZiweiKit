@@ -43,11 +43,11 @@ jobs:
         env:
           REPOSITORY_NAME: ${{ github.event.repository.name }}
         run: |
-          xcrun docc convert Sources/ZiweiCore/ZiweiCore.docc \
+          xcrun docc convert Sources/ZiweiKit/ZiweiKit.docc \
             --additional-symbol-graph-dir .build/symbol-graphs \
-            --output-path .build/ZiweiCore.doccarchive \
-            --fallback-display-name ZiweiCore \
-            --fallback-bundle-identifier dev.qiyang.ZiweiCore \
+            --output-path .build/ZiweiKit.doccarchive \
+            --fallback-display-name ZiweiKit \
+            --fallback-bundle-identifier dev.qiyang.ZiweiKit \
             --fallback-bundle-version 1.0 \
             --fallback-default-module-kind Library \
             --transform-for-static-hosting \
@@ -60,7 +60,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: .build/ZiweiCore.doccarchive
+          path: .build/ZiweiKit.doccarchive
 
   deploy:
     needs: build
@@ -68,7 +68,7 @@ jobs:
 
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ format('{0}documentation/ziweikit/', steps.deployment.outputs.page_url) }}
 
     steps:
       - name: Deploy

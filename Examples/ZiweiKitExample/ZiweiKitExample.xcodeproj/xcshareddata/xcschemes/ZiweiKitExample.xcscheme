@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A10000000000000000000020"
-               BuildableName = "ZiweiCoreExample.app"
-               BlueprintName = "ZiweiCoreExample"
-               ReferencedContainer = "container:ZiweiCoreExample.xcodeproj">
+               BuildableName = "ZiweiKitExample.app"
+               BlueprintName = "ZiweiKitExample"
+               ReferencedContainer = "container:ZiweiKitExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -46,9 +46,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A10000000000000000000020"
-            BuildableName = "ZiweiCoreExample.app"
-            BlueprintName = "ZiweiCoreExample"
-            ReferencedContainer = "container:ZiweiCoreExample.xcodeproj">
+            BuildableName = "ZiweiKitExample.app"
+            BlueprintName = "ZiweiKitExample"
+            ReferencedContainer = "container:ZiweiKitExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -63,9 +63,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A10000000000000000000020"
-            BuildableName = "ZiweiCoreExample.app"
-            BlueprintName = "ZiweiCoreExample"
-            ReferencedContainer = "container:ZiweiCoreExample.xcodeproj">
+            BuildableName = "ZiweiKitExample.app"
+            BlueprintName = "ZiweiKitExample"
+            ReferencedContainer = "container:ZiweiKitExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

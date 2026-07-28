@@ -1,14 +1,14 @@
-# ZiweiCore
+# ZiweiKit
 
 English | [简体中文](README.zh-CN.md)
 
-ZiweiCore is a pure Swift port of the calculation layer from
+ZiweiKit is a pure Swift port of the calculation layer from
 [iztro](https://github.com/SylarLong/iztro), distributed as a Swift Package. It
 depends only on Foundation at runtime, embeds no JavaScript, and supports iOS,
 macOS, tvOS, watchOS, and visionOS.
 
 ```swift
-import ZiweiCore
+import ZiweiKit
 
 let birthDate = try SolarDate(year: 2000, month: 8, day: 16)
 let chart = try Ziwei.chart(
@@ -45,7 +45,7 @@ let chart = try Ziwei.chart(
 Public types and calculation entry points include DocC comments, complemented
 by guides for getting started, date and time conventions, configuration,
 horoscopes, and analysis queries. Read the
-[online documentation](https://qiyangdev.github.io/ZiweiCore/documentation/ziweicore/),
+[online documentation](https://qiyangdev.github.io/ZiweiKit/documentation/ziweikit/),
 or open the package root in Xcode and choose **Product > Build Documentation**.
 
 Configuration is an immutable value captured independently by each chart. It
@@ -71,19 +71,19 @@ let chart = try Ziwei.chart(
 
 ## SwiftUI Example
 
-`Examples/ZiweiCoreExample` is an independent iOS 16+ SwiftUI Xcode project.
+`Examples/ZiweiKitExample` is an independent iOS 16+ SwiftUI Xcode project.
 It demonstrates chart creation for a fixed date, a chart summary, the twelve
 palaces, and star details. The example uses the repository root as a local
-Package Dependency, so it adds no UI product to ZiweiCore and keeps the root a
+Package Dependency, so it adds no UI product to ZiweiKit and keeps the root a
 pure Swift Package.
 
-Open `Examples/ZiweiCoreExample/ZiweiCoreExample.xcodeproj` directly, or run:
+Open `Examples/ZiweiKitExample/ZiweiKitExample.xcodeproj` directly, or run:
 
 ```sh
-open Examples/ZiweiCoreExample/ZiweiCoreExample.xcodeproj
+open Examples/ZiweiKitExample/ZiweiKitExample.xcodeproj
 ```
 
-Choose the `ZiweiCoreExample` scheme and any iOS 16+ Simulator. Keep the
+Choose the `ZiweiKitExample` scheme and any iOS 16+ Simulator. Keep the
 example at its current relative path so Xcode can resolve the local package.
 
 ## Calculation Coverage
@@ -114,7 +114,7 @@ the consuming application's presentation layer and do not affect calculations.
 
 `Tests/ReferenceIztro` pins the reference implementation to `iztro@2.5.8`
 (upstream commit `106d038cc5a30d6aff8fd987f7ed79090b6ad7ff`). Its generated JSON
-oracles are committed under `Tests/ZiweiCoreTests/Fixtures`. The test target's
+oracles are committed under `Tests/ZiweiKitTests/Fixtures`. The test target's
 `IztroOracleAdapter.swift` converts localized oracle values into strongly typed
 results, so normal Swift tests run entirely offline:
 

@@ -1,7 +1,7 @@
 import Foundation
 import Testing
 
-@testable import ZiweiCore
+@testable import ZiweiKit
 
 @Suite("iztro 2.5.8 parity")
 struct IztroParityTests {

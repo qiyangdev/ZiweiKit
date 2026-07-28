@@ -1,6 +1,6 @@
 # Third-party notices
 
-ZiweiCore adapts calculation algorithms and data tables from
+ZiweiKit adapts calculation algorithms and data tables from
 [SylarLong/iztro](https://github.com/SylarLong/iztro), version 2.5.8,
 commit `106d038cc5a30d6aff8fd987f7ed79090b6ad7ff`.
 

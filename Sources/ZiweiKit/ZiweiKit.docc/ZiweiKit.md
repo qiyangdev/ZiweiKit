@@ -1,4 +1,4 @@
-# ``ZiweiCore``
+# ``ZiweiKit``
 
 Generate deterministic Zi Wei Dou Shu charts with the complete iztro calculation layer.
 

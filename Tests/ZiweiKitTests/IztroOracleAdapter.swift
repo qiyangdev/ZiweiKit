@@ -1,4 +1,4 @@
-import ZiweiCore
+import ZiweiKit
 
 extension Gender {
   init?(iztroName: String) {

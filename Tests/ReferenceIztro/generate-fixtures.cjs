@@ -86,7 +86,7 @@ const fixtures = cases.map((item) => {
   return { input: item, expected: compact(chart) };
 });
 
-const target = path.resolve(__dirname, '../ZiweiCoreTests/Fixtures/iztro-2.5.8.json');
+const target = path.resolve(__dirname, '../ZiweiKitTests/Fixtures/iztro-2.5.8.json');
 fs.mkdirSync(path.dirname(target), { recursive: true });
 fs.writeFileSync(target, `${JSON.stringify(fixtures, null, 2)}\n`);
 console.log(`Wrote ${fixtures.length} fixtures to ${target}`);
@@ -130,7 +130,7 @@ const horoscopeFixtures = horoscopeCases.map((item) => {
   };
 });
 
-const horoscopeTarget = path.resolve(__dirname, '../ZiweiCoreTests/Fixtures/iztro-2.5.8-horoscope.json');
+const horoscopeTarget = path.resolve(__dirname, '../ZiweiKitTests/Fixtures/iztro-2.5.8-horoscope.json');
 fs.writeFileSync(horoscopeTarget, `${JSON.stringify(horoscopeFixtures, null, 2)}\n`);
 console.log(`Wrote ${horoscopeFixtures.length} horoscope fixtures to ${horoscopeTarget}`);
 
@@ -192,7 +192,7 @@ const configuredFixtures = configuredCases.map((item) => {
   return { input: item, expected: compact(chart) };
 });
 
-const configuredTarget = path.resolve(__dirname, '../ZiweiCoreTests/Fixtures/iztro-2.5.8-configured.json');
+const configuredTarget = path.resolve(__dirname, '../ZiweiKitTests/Fixtures/iztro-2.5.8-configured.json');
 fs.writeFileSync(configuredTarget, `${JSON.stringify(configuredFixtures, null, 2)}\n`);
 console.log(`Wrote ${configuredFixtures.length} configured fixtures to ${configuredTarget}`);
 
@@ -243,7 +243,7 @@ const configuredHoroscopeFixtures = configuredHoroscopeCases.map((item) => {
 });
 
 const configuredHoroscopeTarget = path.resolve(
-  __dirname, '../ZiweiCoreTests/Fixtures/iztro-2.5.8-configured-horoscope.json',
+  __dirname, '../ZiweiKitTests/Fixtures/iztro-2.5.8-configured-horoscope.json',
 );
 fs.writeFileSync(configuredHoroscopeTarget, `${JSON.stringify(configuredHoroscopeFixtures, null, 2)}\n`);
 console.log(`Wrote ${configuredHoroscopeFixtures.length} configured horoscope fixtures to ${configuredHoroscopeTarget}`);
@@ -274,6 +274,6 @@ for (const year of [1901, 1950, 2000, 2050, 2099]) {
   }
 }
 
-const calendricalTarget = path.resolve(__dirname, '../ZiweiCoreTests/Fixtures/iztro-2.5.8-solar-terms.json');
+const calendricalTarget = path.resolve(__dirname, '../ZiweiKitTests/Fixtures/iztro-2.5.8-solar-terms.json');
 fs.writeFileSync(calendricalTarget, `${JSON.stringify(calendricalFixtures, null, 2)}\n`);
 console.log(`Wrote ${calendricalFixtures.length} solar-term fixtures to ${calendricalTarget}`);

@@ -1,7 +1,7 @@
 {
-  "name": "ziweicore-iztro-reference",
+  "name": "ziweikit-iztro-reference",
   "private": true,
-  "description": "Pinned upstream oracle used to regenerate ZiweiCore parity fixtures.",
+  "description": "Pinned upstream oracle used to regenerate ZiweiKit parity fixtures.",
   "scripts": {
     "generate": "node generate-fixtures.cjs"
   },

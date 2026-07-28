@@ -1,7 +1,7 @@
 # Date and Time Conventions
 
 Understand the calendar, time-zone, leap-month, and late-rat-period rules used
-by ZiweiCore.
+by ZiweiKit.
 
 ## Calendar dates
 
