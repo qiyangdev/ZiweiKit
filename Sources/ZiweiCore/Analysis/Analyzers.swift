@@ -14,16 +14,19 @@ public struct SurroundedPalaces: Equatable, Sendable {
     self.career = career
   }
 
+  /// Returns whether every requested star appears in the four palaces.
   public func contains(_ stars: [StarID]) -> Bool {
     let ids = Set(all.flatMap(\.stars).map(\.id))
     return stars.allSatisfy(ids.contains)
   }
 
+  /// Returns whether at least one requested star appears in the four palaces.
   public func containsAny(of stars: [StarID]) -> Bool {
     let ids = Set(all.flatMap(\.stars).map(\.id))
     return stars.contains(where: ids.contains)
   }
 
+  /// Returns whether none of the requested stars appears in the four palaces.
   public func containsNone(of stars: [StarID]) -> Bool {
     let ids = Set(all.flatMap(\.stars).map(\.id))
     return stars.allSatisfy { !ids.contains($0) }
@@ -35,16 +38,19 @@ public struct SurroundedPalaces: Equatable, Sendable {
 }
 
 extension Palace {
+  /// Returns whether the palace contains every requested star.
   public func contains(_ stars: [StarID]) -> Bool {
     let ids = Set(self.stars.map(\.id))
     return stars.allSatisfy(ids.contains)
   }
 
+  /// Returns whether the palace contains at least one requested star.
   public func containsAny(of stars: [StarID]) -> Bool {
     let ids = Set(self.stars.map(\.id))
     return stars.contains(where: ids.contains)
   }
 
+  /// Returns whether the palace contains none of the requested stars.
   public func containsNone(of stars: [StarID]) -> Bool {
     let ids = Set(self.stars.map(\.id))
     return stars.allSatisfy { !ids.contains($0) }
@@ -56,10 +62,12 @@ extension Palace {
 
   public var isEmpty: Bool { isEmpty(excluding: []) }
 
+  /// Returns whether the palace has no major star, ignoring the supplied exceptions.
   public func isEmpty(excluding stars: [StarID]) -> Bool {
     !majorStars.contains { $0.type == .major } && !containsAny(of: stars)
   }
 
+  /// Returns whether all selected transformations fly from this palace to the target palace.
   public func flies(
     to target: PalaceID, mutagens: [Mutagen], in astrolabe: Astrolabe
   ) -> Bool {
@@ -68,6 +76,7 @@ extension Palace {
     return !stars.isEmpty && targetPalace.contains(stars)
   }
 
+  /// Returns whether any selected transformation flies from this palace to the target palace.
   public func fliesAny(
     to target: PalaceID, mutagens: [Mutagen], in astrolabe: Astrolabe
   ) -> Bool {
@@ -76,6 +85,7 @@ extension Palace {
     return stars.isEmpty || targetPalace.containsAny(of: stars)
   }
 
+  /// Returns whether none of the selected transformations flies to the target palace.
   public func doesNotFly(
     to target: PalaceID, mutagens: [Mutagen], in astrolabe: Astrolabe
   ) -> Bool {
@@ -84,6 +94,7 @@ extension Palace {
     return stars.isEmpty || targetPalace.containsNone(of: stars)
   }
 
+  /// Returns whether every selected transformation remains in this palace.
   public func isSelfMutated(by mutagens: [Mutagen], in astrolabe: Astrolabe) -> Bool {
     contains(astrolabe.mutagenStars(for: stem, mutagens: mutagens))
   }
@@ -120,15 +131,18 @@ extension Star {
     mutagen.map(values.contains) ?? false
   }
 
+  /// Locates the natal palace containing this star.
   public func palace(in astrolabe: Astrolabe) -> Palace? {
     astrolabe.palace(containing: id)
   }
 
+  /// Locates the palace opposite this star's natal palace.
   public func oppositePalace(in astrolabe: Astrolabe) -> Palace? {
     guard let palace = palace(in: astrolabe) else { return nil }
     return astrolabe.palace(at: positiveModulo(palace.index + 6))
   }
 
+  /// Builds the three-directions-and-four-alignments group around this star.
   public func surroundedPalaces(in astrolabe: Astrolabe) -> SurroundedPalaces? {
     guard let palace = palace(in: astrolabe) else { return nil }
     return astrolabe.surroundedPalaces(at: palace.index)
@@ -136,18 +150,22 @@ extension Star {
 }
 
 extension Astrolabe {
+  /// Finds a star anywhere in the natal chart.
   public func star(_ id: StarID) -> Star? {
     palaces.lazy.flatMap(\.stars).first { $0.id == id }
   }
 
+  /// Finds a natal palace by semantic identifier.
   public func palace(_ id: PalaceID) -> Palace? {
     palaces.first { $0.id == id }
   }
 
+  /// Finds the natal palace containing a star.
   public func palace(containing star: StarID) -> Palace? {
     palaces.first { $0.stars.contains { $0.id == star } }
   }
 
+  /// Builds the three-directions-and-four-alignments group around a palace.
   public func surroundingPalaces(of id: PalaceID) -> SurroundedPalaces? {
     guard let palace = palace(id) else { return nil }
     return surroundedPalaces(at: palace.index)
@@ -166,17 +184,19 @@ extension Astrolabe {
   fileprivate func mutagenStars(for stem: HeavenlyStem, mutagens: [Mutagen]) -> [StarID] {
     let stars = configuration.mutagenStars(for: stem)
     return mutagens.compactMap { mutagen in
-      let index = Mutagen.allCases.firstIndex(of: mutagen)!
+      let index = mutagen.cycleIndex
       return stars.indices.contains(index) ? stars[index] : nil
     }
   }
 }
 
 extension Horoscope {
+  /// Locates the natal palace occupied at the calculated nominal age.
   public func agePalace(in astrolabe: Astrolabe) -> Palace? {
     astrolabe.palace(at: age.index)
   }
 
+  /// Resolves a palace under a natal or horoscope scope.
   public func palace(
     _ palaceID: PalaceID, scope: HoroscopeScope, in astrolabe: Astrolabe
   ) -> Palace? {
@@ -185,6 +205,7 @@ extension Horoscope {
     return astrolabe.palace(at: index)
   }
 
+  /// Builds the scoped three-directions-and-four-alignments group around a palace.
   public func surroundingPalaces(
     of palaceID: PalaceID, scope: HoroscopeScope, in astrolabe: Astrolabe
   ) -> SurroundedPalaces? {

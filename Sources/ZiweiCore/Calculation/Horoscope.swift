@@ -1,15 +1,13 @@
-import Foundation
-
 enum HoroscopeCalculator {
-  static func calculate(chart: Astrolabe, target: SolarDate, timeIndex: Int) throws -> Horoscope {
-    guard (0...12).contains(timeIndex) else { throw ZiweiError.invalidTimeIndex(timeIndex) }
+  static func calculate(chart: Astrolabe, target: SolarDate, hour: ChineseHour) throws -> Horoscope
+  {
     let configuration = chart.configuration
-    let calculationTimeIndex =
-      configuration.dayDivide == .current && timeIndex == 12
-      ? 0 : timeIndex
+    let calculationHour: ChineseHour =
+      configuration.dayDivide == .current && hour == .lateZi
+      ? .earlyZi : hour
     let targetLunar = try CalendarEngine.solarToLunar(target)
     let targetChinese = try CalendarEngine.chineseDate(
-      solar: target, lunar: targetLunar, timeIndex: calculationTimeIndex,
+      solar: target, lunar: targetLunar, hour: calculationHour,
       yearDivide: configuration.horoscopeDivide, monthDivide: configuration.horoscopeDivide,
       dayDivide: configuration.dayDivide)
     var nominalAge = targetLunar.year - chart.lunarDate.year

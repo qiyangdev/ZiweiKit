@@ -1,32 +1,49 @@
-import Foundation
-
+/// Selects whether a boundary follows the lunar date or the exact solar term.
 public enum DivideMode: String, Codable, Sendable {
+  /// Uses the lunar-calendar boundary.
   case normal
+  /// Uses the astronomical solar-term boundary.
   case exact
 }
 
+/// Selects how the active nominal-age period changes.
 public enum AgeDivideMode: String, Codable, Sendable {
+  /// Changes age periods at the lunar new year.
   case normal
+  /// Changes age periods on the chart subject's lunar birthday.
   case birthday
 }
 
+/// Selects how the late rat period affects the day pillar.
 public enum DayDivideMode: String, Codable, Sendable {
+  /// Keeps the late rat period on the current calendar day.
   case current
+  /// Advances the late rat period to the following day.
   case forward
 }
 
+/// The supported chart calculation rule set.
 public enum ZiweiAlgorithm: String, Codable, Sendable {
+  /// The standard rule set.
   case standard = "default"
+  /// The Zhongzhou rule set.
   case zhongzhou
 }
 
+/// The palace frame used to construct an astrolabe.
 public enum AstrolabeType: String, Codable, Sendable {
+  /// Uses the natal life palace.
   case heaven
+  /// Uses the body palace as the chart origin.
   case earth
+  /// Uses the fortune palace as the chart origin.
   case human
 }
 
-/// Immutable per-chart configuration corresponding to iztro's calculation config.
+/// Immutable, per-chart calculation settings.
+///
+/// Empty custom tables fall back to the built-in transformation and brightness
+/// tables. Configuration is captured in the resulting ``Astrolabe``.
 public struct ZiweiConfiguration: Codable, Equatable, Sendable {
   public let mutagens: [HeavenlyStem: [StarID]]
   public let brightness: [StarID: [Brightness?]]
@@ -69,26 +86,28 @@ public struct ZiweiConfiguration: Codable, Equatable, Sendable {
   }
 }
 
+/// The validated solar or lunar date used to create a chart.
 public enum ChartDate: Codable, Equatable, Sendable {
   case solar(SolarDate)
   case lunar(LunarDate)
 }
 
+/// A value containing all inputs needed to create an ``Astrolabe``.
 public struct ChartOptions: Codable, Equatable, Sendable {
   public let date: ChartDate
-  public let timeIndex: Int
+  public let hour: ChineseHour
   public let gender: Gender
   public let fixLeap: Bool
   public let astrolabeType: AstrolabeType
   public let configuration: ZiweiConfiguration
 
   public init(
-    date: ChartDate, timeIndex: Int, gender: Gender, fixLeap: Bool = true,
+    date: ChartDate, hour: ChineseHour, gender: Gender, fixLeap: Bool = true,
     astrolabeType: AstrolabeType = .heaven,
     configuration: ZiweiConfiguration = .default
   ) {
     self.date = date
-    self.timeIndex = timeIndex
+    self.hour = hour
     self.gender = gender
     self.fixLeap = fixLeap
     self.astrolabeType = astrolabeType

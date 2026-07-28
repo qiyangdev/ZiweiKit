@@ -15,19 +15,17 @@ struct IztroParityTests {
       let chart: Astrolabe
       if fixture.input.type == "solar" {
         chart = try Ziwei.chart(
-          solarDate:
-            fixture.input.date,
-          timeIndex: fixture.input.timeIndex,
+          solarDate: SolarDate(fixture.input.date),
+          hour: chineseHour(fixture.input.timeIndex),
           gender: gender,
           fixLeap: fixture.input.fixLeap
         )
       } else {
         chart = try Ziwei.chart(
-          lunarDate:
-            fixture.input.date,
-          timeIndex: fixture.input.timeIndex,
+          lunarDate: LunarDate(
+            fixture.input.date, isLeapMonth: fixture.input.isLeapMonth ?? false),
+          hour: chineseHour(fixture.input.timeIndex),
           gender: gender,
-          isLeapMonth: fixture.input.isLeapMonth ?? false,
           fixLeap: fixture.input.fixLeap
         )
       }
@@ -45,14 +43,13 @@ struct IztroParityTests {
     for fixture in fixtures {
       let gender = try #require(Gender(iztroName: fixture.input.gender))
       let chart = try Ziwei.chart(
-        solarDate:
-          fixture.input.birthDate,
-        timeIndex: fixture.input.birthTimeIndex,
+        solarDate: SolarDate(fixture.input.birthDate),
+        hour: chineseHour(fixture.input.birthTimeIndex),
         gender: gender
       )
       let horoscope = try chart.horoscope(
-        at: fixture.input.targetDate,
-        timeIndex: fixture.input.targetTimeIndex
+        at: SolarDate(fixture.input.targetDate),
+        hour: chineseHour(fixture.input.targetTimeIndex)
       )
       let actual = HoroscopeExpected(
         solarDate: horoscope.solarDate.description,
@@ -85,17 +82,18 @@ struct IztroParityTests {
       let chart: Astrolabe
       if input.type == "solar" {
         chart = try Ziwei.chart(
-          solarDate: input.date, timeIndex: input.timeIndex,
+          solarDate: SolarDate(input.date), hour: chineseHour(input.timeIndex),
           gender: try #require(Gender(iztroName: input.gender)),
           fixLeap: input.fixLeap, configuration: input.config.configuration,
-          astrolabeType: AstrolabeType(rawValue: input.astroType)!)
+          astrolabeType: try #require(AstrolabeType(rawValue: input.astroType)))
       } else {
         chart = try Ziwei.chart(
-          lunarDate: input.date, timeIndex: input.timeIndex,
+          lunarDate: LunarDate(input.date, isLeapMonth: input.isLeapMonth ?? false),
+          hour: chineseHour(input.timeIndex),
           gender: try #require(Gender(iztroName: input.gender)),
-          isLeapMonth: input.isLeapMonth ?? false, fixLeap: input.fixLeap,
+          fixLeap: input.fixLeap,
           configuration: input.config.configuration,
-          astrolabeType: AstrolabeType(rawValue: input.astroType)!)
+          astrolabeType: try #require(AstrolabeType(rawValue: input.astroType)))
       }
       #expect(snapshot(chart) == fixture.expected, "Configured mismatch: \(input.id)")
     }
@@ -118,11 +116,11 @@ struct IztroParityTests {
         : .lunar(try LunarDate(input.birthDate))
       let chart = try Ziwei.chart(
         options: ChartOptions(
-          date: date, timeIndex: input.birthTimeIndex,
+          date: date, hour: chineseHour(input.birthTimeIndex),
           gender: try #require(Gender(iztroName: input.gender)),
           configuration: input.config.configuration))
       let horoscope = try chart.horoscope(
-        at: input.targetDate, timeIndex: input.targetTimeIndex)
+        at: SolarDate(input.targetDate), hour: chineseHour(input.targetTimeIndex))
       #expect(horoscopeSnapshot(horoscope) == fixture.expected, "Horoscope mismatch: \(input.id)")
     }
   }
@@ -130,7 +128,7 @@ struct IztroParityTests {
   @Test("functional analyzers match iztro semantics")
   func analyzers() throws {
     let chart = try Ziwei.chart(
-      solarDate: "1987-9-23", timeIndex: 12, gender: .female,
+      solarDate: SolarDate("1987-9-23"), hour: .lateZi, gender: .female,
       configuration: ZiweiConfiguration(dayDivide: .current))
     let soul = try #require(chart.palace(.life))
     #expect(soul.isEmpty)
@@ -140,7 +138,8 @@ struct IztroParityTests {
         .taiyang, .tianliang, .youbi, .bazuo, .tiangui, .kongwang, .tianku,
       ]) == true)
 
-    let flying = try Ziwei.chart(solarDate: "2017-12-4", timeIndex: 12, gender: .male)
+    let flying = try Ziwei.chart(
+      solarDate: SolarDate("2017-12-4"), hour: .lateZi, gender: .male)
     let flyingSoul = try #require(flying.palace(.life))
     #expect(flyingSoul.flies(to: .siblings, mutagens: [.obstacle], in: flying))
     #expect(flyingSoul.doesNotFly(to: .siblings, mutagens: [.reputation], in: flying))
@@ -157,15 +156,16 @@ struct IztroParityTests {
       flyingSoul.mutatedPalaces(in: flying).compactMap { $0?.id }
         == [.life, .travel, .friends, .siblings])
 
-    let canonical = try Ziwei.chart(solarDate: "2000-8-16", timeIndex: 2, gender: .female)
+    let canonical = try Ziwei.chart(
+      solarDate: SolarDate("2000-8-16"), hour: .yin, gender: .female)
     #expect(canonical.star(.ziwei)?.palace(in: canonical) != nil)
     #expect(canonical.surroundingPalaces(of: .life)?.all.count == 4)
 
-    let horoscope = try canonical.horoscope(at: "2026-7-28", timeIndex: 6)
+    let horoscope = try canonical.horoscope(at: SolarDate("2026-7-28"), hour: .wu)
     #expect(horoscope.agePalace(in: canonical)?.index == horoscope.age.index)
     #expect(horoscope.palace(.life, scope: .yearly, in: canonical) != nil)
 
-    let referenceHoroscope = try canonical.horoscope(at: "2023-8-19 3:12")
+    let referenceHoroscope = try canonical.horoscope(at: SolarDate("2023-8-19"), hour: .yin)
     #expect(
       referenceHoroscope.containsHoroscopeStars(
         [.liuTuo, .liuQu, .yunChang], in: .health, scope: .decadal, astrolabe: canonical))
@@ -190,8 +190,8 @@ struct IztroParityTests {
     let configuration = ZiweiConfiguration(yearDivide: .exact, horoscopeDivide: .exact)
     for fixture in fixtures {
       let chart = try Ziwei.chart(
-        solarDate:
-          fixture.input.date, timeIndex: fixture.input.timeIndex, gender: .male,
+        solarDate: SolarDate(fixture.input.date),
+        hour: chineseHour(fixture.input.timeIndex), gender: .male,
         configuration: configuration)
       let actual = SolarTermExpected(
         zodiac: chart.zodiacBranch.iztroZodiac,
@@ -205,21 +205,33 @@ struct IztroParityTests {
 
   @Test("solar and lunar entry points are equivalent")
   func entryPointEquivalence() throws {
-    let solar = try Ziwei.chart(solarDate: "2000-8-16", timeIndex: 2, gender: .female)
-    let lunar = try Ziwei.chart(lunarDate: "2000-7-17", timeIndex: 2, gender: .female)
+    let solar = try Ziwei.chart(
+      solarDate: SolarDate("2000-8-16"), hour: .yin, gender: .female)
+    let lunar = try Ziwei.chart(
+      lunarDate: LunarDate("2000-7-17"), hour: .yin, gender: .female)
     #expect(solar == lunar)
   }
 
   @Test("native date parsing and extension hooks")
   func nativeConveniences() throws {
-    let dashed = try Ziwei.chart(solarDate: "1979-8-21", timeIndex: 6, gender: .male)
-    let dotted = try Ziwei.chart(solarDate: "1979.08.21", timeIndex: 6, gender: .male)
+    let dashed = try Ziwei.chart(
+      solarDate: SolarDate("1979-8-21"), hour: .wu, gender: .male)
+    let dotted = try Ziwei.chart(
+      solarDate: SolarDate("1979.08.21"), hour: .wu, gender: .male)
     #expect(dashed == dotted)
-    #expect(Ziwei.timeIndex(forHour: 0) == 0)
-    #expect(Ziwei.timeIndex(forHour: 12) == 6)
-    #expect(Ziwei.timeIndex(forHour: 23) == 12)
+    #expect(ChineseHour(clockHour: 0) == .earlyZi)
+    #expect(ChineseHour(clockHour: 12) == .wu)
+    #expect(ChineseHour(clockHour: 23) == .lateZi)
+    #expect(
+      (0...23).compactMap(ChineseHour.init(clockHour:))
+        == [
+          .earlyZi, .chou, .chou, .yin, .yin, .mao, .mao, .chen, .chen, .si, .si, .wu,
+          .wu, .wei, .wei, .shen, .shen, .you, .you, .xu, .xu, .hai, .hai, .lateZi,
+        ])
+    #expect(ChineseHour.earlyZi.branch == .zi)
+    #expect(ChineseHour.lateZi.branch == .zi)
 
-    let horoscope = try dotted.horoscope(at: "2025-06-10 12:00")
+    let horoscope = try dotted.horoscope(at: SolarDate("2025-06-10"), hour: .wu)
     #expect(horoscope.monthly.index == 7)
     #expect(horoscope.daily.index == 9)
     #expect(horoscope.yearly.yearlyDecStar?.jiangqian12.count == 12)
@@ -237,7 +249,8 @@ struct IztroParityTests {
     #expect(try JSONDecoder().decode(Star.self, from: starData) == star)
     #expect(String(decoding: starData, as: UTF8.self).contains("ziwei"))
 
-    let chart = try Ziwei.chart(solarDate: "2000-8-16", timeIndex: 2, gender: .female)
+    let chart = try Ziwei.chart(
+      solarDate: SolarDate("2000-8-16"), hour: .yin, gender: .female)
     let chartData = try JSONEncoder().encode(chart)
     #expect(try JSONDecoder().decode(Astrolabe.self, from: chartData) == chart)
 
@@ -250,14 +263,13 @@ struct IztroParityTests {
 
   @Test("invalid input is rejected")
   func invalidInput() throws {
-    #expect(throws: ZiweiError.invalidTimeIndex(13)) {
-      try Ziwei.chart(solarDate: "2000-8-16", timeIndex: 13, gender: .female)
-    }
+    #expect(ChineseHour(clockHour: -1) == nil)
+    #expect(ChineseHour(clockHour: 24) == nil)
     #expect(throws: ZiweiError.invalidDate("not-a-date")) {
-      try Ziwei.chart(solarDate: "not-a-date", timeIndex: 2, gender: .female)
+      try SolarDate("not-a-date")
     }
     #expect(throws: ZiweiError.invalidDate("2000-2-31")) {
-      try Ziwei.chart(solarDate: "2000-2-31", timeIndex: 2, gender: .female)
+      try SolarDate("2000-2-31")
     }
     #expect(throws: ZiweiError.invalidDate("2000-2-31")) {
       try SolarDate(year: 2000, month: 2, day: 31)
@@ -269,12 +281,16 @@ struct IztroParityTests {
     return try JSONDecoder().decode([Fixture].self, from: Data(contentsOf: url))
   }
 
+  private func chineseHour(_ rawValue: Int) throws -> ChineseHour {
+    try #require(ChineseHour(rawValue: rawValue))
+  }
+
   private func snapshot(_ chart: Astrolabe) -> ChartFixture {
     ChartFixture(
       gender: chart.gender.iztroName,
       solarDate: chart.solarDate.description,
-      time: IztroTimeFormatter.names[chart.timeIndex],
-      timeRange: IztroTimeFormatter.ranges[chart.timeIndex],
+      time: IztroTimeFormatter.names[chart.hour.rawValue],
+      timeRange: IztroTimeFormatter.ranges[chart.hour.rawValue],
       sign: chart.westernZodiac.iztroName,
       zodiac: chart.zodiacBranch.iztroZodiac,
       earthlyBranchOfSoulPalace: chart.soulPalaceBranch.iztroName,

@@ -1,7 +1,12 @@
 import Foundation
 
 enum CalendarEngine {
-  static let timeZone = TimeZone(identifier: "Asia/Shanghai")!
+  static let timeZone: TimeZone = {
+    guard let value = TimeZone(identifier: "Asia/Shanghai") else {
+      preconditionFailure("The system time-zone database does not contain Asia/Shanghai")
+    }
+    return value
+  }()
 
   static var gregorian: Calendar {
     var calendar = Calendar(identifier: .gregorian)
@@ -72,7 +77,11 @@ enum CalendarEngine {
         year: lunar.year, month: lunar.month, day: lunar.day, isLeapMonth: lunar.isLeapMonth)
     }
     let solar = gregorian.dateComponents([.year, .month, .day], from: date)
-    return SolarDate(uncheckedYear: solar.year!, month: solar.month!, day: solar.day!)
+    guard let year = solar.year, let month = solar.month, let day = solar.day else {
+      throw ZiweiError.unsupportedLunarDate(
+        year: lunar.year, month: lunar.month, day: lunar.day, isLeapMonth: lunar.isLeapMonth)
+    }
+    return SolarDate(uncheckedYear: year, month: month, day: day)
   }
 
   static func yearPillar(
@@ -90,15 +99,15 @@ enum CalendarEngine {
       effectiveYear = lunar.year
     }
     return StemBranch(
-      stem: HeavenlyStem(rawValue: positiveModulo(effectiveYear - 4, 10))!,
-      branch: EarthlyBranch(rawValue: positiveModulo(effectiveYear - 4, 12))!
+      stem: HeavenlyStem.cyclic(at: effectiveYear - 4),
+      branch: EarthlyBranch.cyclic(at: effectiveYear - 4)
     )
   }
 
   static func chineseDate(
     solar: SolarDate,
     lunar: LunarDate,
-    timeIndex: Int,
+    hour: ChineseHour,
     yearDivide: DivideMode = .normal,
     monthDivide: DivideMode = .normal,
     dayDivide: DayDivideMode = .forward
@@ -106,43 +115,44 @@ enum CalendarEngine {
     let year = yearPillar(solar: solar, lunar: lunar, divide: yearDivide)
     let effectiveMonth: Int
     if monthDivide == .exact {
-      effectiveMonth = exactMonthNumber(for: solar, timeIndex: timeIndex)
+      effectiveMonth = try exactMonthNumber(for: solar, hour: hour)
     } else {
       // lunar-lite treats the latter half of a leap month as the following month.
       effectiveMonth = lunar.month + (lunar.isLeapMonth && lunar.day > 15 ? 1 : 0)
     }
     let monthYearStem: HeavenlyStem
     if monthDivide == .exact {
-      let input = solarDateTime(solar, timeIndex: timeIndex)
+      let input = try solarDateTime(solar, hour: hour)
       let exactYear =
         input < solarTermDate(year: solar.year, termIndex: 2) ? solar.year - 1 : solar.year
-      monthYearStem = HeavenlyStem(rawValue: positiveModulo(exactYear - 4, 10))!
+      monthYearStem = HeavenlyStem.cyclic(at: exactYear - 4)
     } else {
       monthYearStem = year.stem
     }
-    let monthStem = HeavenlyStem(
-      rawValue: positiveModulo(
-        Constants.tigerRule[monthYearStem.rawValue].rawValue + effectiveMonth - 1, 10)
-    )!
-    let monthBranch = EarthlyBranch(
-      rawValue: positiveModulo(EarthlyBranch.yin.rawValue + effectiveMonth - 1))!
+    let monthStem = HeavenlyStem.cyclic(
+      at: Constants.tigerRule[monthYearStem.rawValue].rawValue + effectiveMonth - 1)
+    let monthBranch = EarthlyBranch.cyclic(at: EarthlyBranch.yin.rawValue + effectiveMonth - 1)
 
     guard let date = gregorianDate(from: solar) else {
       throw ZiweiError.invalidDate(solar.description)
     }
-    let epoch = gregorianDate(from: SolarDate(uncheckedYear: 1970, month: 1, day: 1))!
-    var elapsedDays = gregorian.dateComponents([.day], from: epoch, to: date).day!
-    if timeIndex == 12 && dayDivide == .forward { elapsedDays += 1 }
+    guard
+      let epoch = gregorianDate(from: SolarDate(uncheckedYear: 1970, month: 1, day: 1)),
+      var elapsedDays = gregorian.dateComponents([.day], from: epoch, to: date).day
+    else {
+      throw ZiweiError.invalidDate(solar.description)
+    }
+    if hour == .lateZi && dayDivide == .forward { elapsedDays += 1 }
     let dayCycle = positiveModulo(elapsedDays + 17, 60)
     let day = StemBranch(
-      stem: HeavenlyStem(rawValue: dayCycle % 10)!,
-      branch: EarthlyBranch(rawValue: dayCycle % 12)!
+      stem: HeavenlyStem.cyclic(at: dayCycle),
+      branch: EarthlyBranch.cyclic(at: dayCycle)
     )
 
     let ratStarts: [HeavenlyStem] = [.jia, .bing, .wu, .geng, .ren, .jia, .bing, .wu, .geng, .ren]
-    let hourBranch = EarthlyBranch(rawValue: positiveModulo(timeIndex))!
-    let hourStem = HeavenlyStem(
-      rawValue: positiveModulo(ratStarts[day.stem.rawValue].rawValue + hourBranch.rawValue, 10))!
+    let hourBranch = hour.branch
+    let hourStem = HeavenlyStem.cyclic(
+      at: ratStarts[day.stem.rawValue].rawValue + hourBranch.rawValue)
     return ChineseDate(
       yearly: year,
       monthly: StemBranch(stem: monthStem, branch: monthBranch),
@@ -152,21 +162,26 @@ enum CalendarEngine {
   }
 
   /// Month number where 1 is the tiger month beginning at 立春.
-  private static func exactMonthNumber(for solar: SolarDate, timeIndex: Int) -> Int {
+  private static func exactMonthNumber(for solar: SolarDate, hour: ChineseHour) throws -> Int {
     let boundaryTermByMonth = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
     let boundary = solarTermDate(
       year: solar.year, termIndex: boundaryTermByMonth[solar.month - 1])
-    let input = solarDateTime(solar, timeIndex: timeIndex)
+    let input = try solarDateTime(solar, hour: hour)
     var branchMonth = solar.month - 1
     if input < boundary { branchMonth -= 1 }
     return positiveModulo(branchMonth - 1, 12) + 1
   }
 
-  private static func solarDateTime(_ solar: SolarDate, timeIndex: Int) -> Date {
-    gregorian.date(
-      from: DateComponents(
-        timeZone: timeZone, year: solar.year, month: solar.month, day: solar.day,
-        hour: max(timeIndex * 2 - 1, 0), minute: 30))!
+  private static func solarDateTime(_ solar: SolarDate, hour: ChineseHour) throws -> Date {
+    guard
+      let date = gregorian.date(
+        from: DateComponents(
+          timeZone: timeZone, year: solar.year, month: solar.month, day: solar.day,
+          hour: hour.representativeClockHour, minute: 30))
+    else {
+      throw ZiweiError.invalidDate(solar.description)
+    }
+    return date
   }
 
   /// Gregorian day of a solar term for date-only calculations (1900–2100).
@@ -182,9 +197,16 @@ enum CalendarEngine {
       353_350, 375_494, 397_447, 419_210, 440_795, 462_224, 483_532, 504_758,
     ]
     var utcCalendar = Calendar(identifier: .gregorian)
-    utcCalendar.timeZone = TimeZone(secondsFromGMT: 0)!
-    let base = utcCalendar.date(
-      from: DateComponents(year: 1900, month: 1, day: 6, hour: 2, minute: 5))!
+    guard let utc = TimeZone(secondsFromGMT: 0) else {
+      preconditionFailure("Foundation could not construct UTC")
+    }
+    utcCalendar.timeZone = utc
+    guard
+      let base = utcCalendar.date(
+        from: DateComponents(year: 1900, month: 1, day: 6, hour: 2, minute: 5))
+    else {
+      preconditionFailure("Foundation could not construct the solar-term epoch")
+    }
     let milliseconds =
       31_556_925_974.7 * Double(year - 1900)
       + Double(termMinutes[termIndex]) * 60_000

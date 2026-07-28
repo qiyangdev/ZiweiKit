@@ -10,7 +10,7 @@ import ZiweiCore
 let birthDate = try SolarDate(year: 2000, month: 8, day: 16)
 let chart = try Ziwei.chart(
   solarDate: birthDate,
-  timeIndex: 2,
+  hour: .yin,
   gender: .female
 )
 
@@ -19,8 +19,8 @@ print(chart.palace(.life)!)
 print(chart.palace(containing: .ziwei)!)
 
 let horoscope = try chart.horoscope(
-  at: "2026-7-28",
-  timeIndex: 6
+  at: SolarDate(year: 2026, month: 7, day: 28),
+  hour: .wu
 )
 print(horoscope.yearly.stem)  // bing
 print(horoscope.age.nominalAge)  // 27
@@ -32,10 +32,16 @@ print(horoscope.age.nominalAge)  // 27
 let lunarDate = try LunarDate(year: 2000, month: 7, day: 17)
 let chart = try Ziwei.chart(
   lunarDate: lunarDate,
-  timeIndex: 2,
+  hour: .yin,
   gender: .female
 )
 ```
+
+## 文档
+
+公共类型和计算入口提供 DocC 注释，另外包含入门、日期与时区、配置、运限和分析查询
+五篇指南。在 Xcode 中打开仓库根目录后，选择 **Product > Build Documentation** 即可
+浏览完整文档。
 
 配置采用每张命盘独立的不可变值，不使用 iztro 的全局可变配置：
 
@@ -43,7 +49,7 @@ let chart = try Ziwei.chart(
 let chart = try Ziwei.chart(
   options: ChartOptions(
     date: .solar(try SolarDate(year: 1979, month: 8, day: 21)),
-    timeIndex: 7,
+    hour: .wei,
     gender: .male,
     astrolabeType: .earth,
     configuration: ZiweiConfiguration(
@@ -84,7 +90,7 @@ open Examples/ZiweiCoreExample/ZiweiCoreExample.xcodeproj
 - 宫位、星曜、三方四正、飞化、自化和运限分析器
 - 自定义四化、亮度、年/运限/生日/晚子时分界配置
 - 通行算法与中州派算法，以及天盘、地盘、人盘重排
-- `ChartOptions`、多种日期分隔符和时间自动换算
+- `ChartOptions`、多种日期分隔符解析和强类型时辰换算
 
 公开模型使用 `PalaceID`、`StarID`、`StarScope`、`Brightness` 和 `Mutagen`
 等强类型标识，产品 target 不包含中文运行时名称或字符串查询接口。日期值在构造及
@@ -119,8 +125,9 @@ npm run generate
 
 ## 时间约定
 
-历法计算固定使用 `Asia/Shanghai`，以避免调用设备时区改变排盘。`timeIndex` 与 iztro
-一致：`0` 为早子时，`1...11` 为丑至亥时，`12` 为晚子时。
+历法计算固定使用 `Asia/Shanghai`，以避免调用设备时区改变排盘。时辰使用
+`ChineseHour` 强类型表示，其中 `.earlyZi` 和 `.lateZi` 分别表示早子时和晚子时；也可以
+通过 `ChineseHour(clockHour:)` 将 `0...23` 的钟点转换为对应时辰。
 
 ## 上游许可
 

@@ -66,7 +66,7 @@ struct ChartSummaryView: View {
     do {
       chart = try Ziwei.chart(
         solarDate: SolarDate(year: 2000, month: 8, day: 16),
-        timeIndex: 2,
+        hour: .yin,
         gender: .female
       )
     } catch {

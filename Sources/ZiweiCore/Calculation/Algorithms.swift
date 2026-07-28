@@ -1,5 +1,3 @@
-import Foundation
-
 struct SoulBody {
   let soulIndex: Int
   let bodyIndex: Int
@@ -12,32 +10,34 @@ enum Algorithms {
     positiveModulo(branch.rawValue - EarthlyBranch.yin.rawValue)
   }
 
-  static func fixedLunarMonthIndex(_ lunar: LunarDate, timeIndex: Int, fixLeap: Bool) -> Int {
+  static func fixedLunarMonthIndex(_ lunar: LunarDate, hour: ChineseHour, fixLeap: Bool) -> Int {
     positiveModulo(
-      lunar.month - 1 + (lunar.isLeapMonth && fixLeap && lunar.day > 15 && timeIndex != 12 ? 1 : 0))
+      lunar.month - 1
+        + (lunar.isLeapMonth && fixLeap && lunar.day > 15 && hour != .lateZi ? 1 : 0))
   }
 
-  static func soulAndBody(lunar: LunarDate, timeIndex: Int, year: StemBranch, fixLeap: Bool)
+  static func soulAndBody(lunar: LunarDate, hour: ChineseHour, year: StemBranch, fixLeap: Bool)
     -> SoulBody
   {
-    let monthIndex = fixedLunarMonthIndex(lunar, timeIndex: timeIndex, fixLeap: fixLeap)
-    let timeBranchIndex = positiveModulo(timeIndex)
+    let monthIndex = fixedLunarMonthIndex(lunar, hour: hour, fixLeap: fixLeap)
+    let timeBranchIndex = hour.branch.rawValue
     let soulIndex = positiveModulo(monthIndex - timeBranchIndex)
     let bodyIndex = positiveModulo(monthIndex + timeBranchIndex)
-    let stem = HeavenlyStem(
-      rawValue: positiveModulo(Constants.tigerRule[year.stem.rawValue].rawValue + soulIndex, 10))!
-    let branch = EarthlyBranch(rawValue: positiveModulo(soulIndex + EarthlyBranch.yin.rawValue))!
+    let stem = HeavenlyStem.cyclic(
+      at: Constants.tigerRule[year.stem.rawValue].rawValue + soulIndex)
+    let branch = EarthlyBranch.cyclic(at: soulIndex + EarthlyBranch.yin.rawValue)
     return SoulBody(
       soulIndex: soulIndex, bodyIndex: bodyIndex, stemOfSoul: stem, branchOfSoul: branch)
   }
 
-  static func soulAndBody(from branch: EarthlyBranch, timeIndex: Int, year: StemBranch) -> SoulBody
+  static func soulAndBody(from branch: EarthlyBranch, hour: ChineseHour, year: StemBranch)
+    -> SoulBody
   {
     let soulIndex = branchToPalace(branch)
     let bodyOffsets = [0, 2, 4, 6, 8, 10, 0, 2, 4, 6, 8, 10, 0]
-    let bodyIndex = positiveModulo(soulIndex + bodyOffsets[timeIndex])
-    let stem = HeavenlyStem(
-      rawValue: positiveModulo(Constants.tigerRule[year.stem.rawValue].rawValue + soulIndex, 10))!
+    let bodyIndex = positiveModulo(soulIndex + bodyOffsets[hour.rawValue])
+    let stem = HeavenlyStem.cyclic(
+      at: Constants.tigerRule[year.stem.rawValue].rawValue + soulIndex)
     return SoulBody(
       soulIndex: soulIndex,
       bodyIndex: bodyIndex,
@@ -93,7 +93,7 @@ enum Algorithms {
   static func majorStars(
     solar: SolarDate,
     lunar: LunarDate,
-    timeIndex: Int,
+    hour: ChineseHour,
     fixLeap: Bool,
     soulBody: SoulBody,
     year: StemBranch,
@@ -101,7 +101,7 @@ enum Algorithms {
   ) throws -> [[Star]] {
     let five = fiveElements(stem: soulBody.stemOfSoul, branch: soulBody.branchOfSoul)
     var day = lunar.day
-    if timeIndex == 12 { day += 1 }
+    if hour == .lateZi { day += 1 }
     if day > (try CalendarEngine.maxDaysInLunarMonth(containing: solar)) {
       day -= try CalendarEngine.maxDaysInLunarMonth(containing: solar)
     }
@@ -152,16 +152,16 @@ enum Algorithms {
   }
 
   static func minorStars(
-    lunar: LunarDate, timeIndex: Int, fixLeap: Bool, year: StemBranch,
+    lunar: LunarDate, hour: ChineseHour, fixLeap: Bool, year: StemBranch,
     configuration: ZiweiConfiguration
   )
     -> [[Star]]
   {
     var result = Array(repeating: [Star](), count: 12)
-    let month = fixedLunarMonthIndex(lunar, timeIndex: timeIndex, fixLeap: fixLeap)
+    let month = fixedLunarMonthIndex(lunar, hour: hour, fixLeap: fixLeap)
     let zuo = positiveModulo(branchToPalace(.chen) + month)
     let you = positiveModulo(branchToPalace(.xu) - month)
-    let fixedTime = positiveModulo(timeIndex)
+    let fixedTime = hour.branch.rawValue
     let chang = positiveModulo(branchToPalace(.xu) - fixedTime)
     let qu = positiveModulo(branchToPalace(.chen) + fixedTime)
     let (kui, yue): (EarthlyBranch, EarthlyBranch) =
@@ -209,19 +209,19 @@ enum Algorithms {
   }
 
   static func adjectiveStars(
-    lunar: LunarDate, timeIndex: Int, fixLeap: Bool, gender: Gender, year: StemBranch,
+    lunar: LunarDate, hour: ChineseHour, fixLeap: Bool, gender: Gender, year: StemBranch,
     soulBody: SoulBody, algorithm: ZiweiAlgorithm = .standard
   ) -> [[Star]] {
     var result = Array(repeating: [Star](), count: 12)
-    let month = fixedLunarMonthIndex(lunar, timeIndex: timeIndex, fixLeap: fixLeap)
+    let month = fixedLunarMonthIndex(lunar, hour: hour, fixLeap: fixLeap)
     let yearIndex = year.branch.rawValue
     let stemIndex = year.stem.rawValue
-    let time = positiveModulo(timeIndex)
+    let time = hour.branch.rawValue
     let zuo = positiveModulo(branchToPalace(.chen) + month)
     let you = positiveModulo(branchToPalace(.xu) - month)
     let chang = positiveModulo(branchToPalace(.xu) - time)
     let qu = positiveModulo(branchToPalace(.chen) + time)
-    let dayIndex = timeIndex >= 12 ? lunar.day : lunar.day - 1
+    let dayIndex = hour == .lateZi ? lunar.day : lunar.day - 1
 
     func add(_ id: StarID, _ type: StarType = .adjective, _ index: Int) {
       result[positiveModulo(index)].append(Star(id: id, type: type))
@@ -407,9 +407,8 @@ enum Algorithms {
     for index in 0..<12 {
       let palaceIndex = positiveModulo(soulBody.soulIndex + (forward ? index : -index))
       let start = five.rawValue + 10 * index
-      let stem = HeavenlyStem(rawValue: positiveModulo(startStem.rawValue + palaceIndex, 10))!
-      let branch = EarthlyBranch(
-        rawValue: positiveModulo(EarthlyBranch.yin.rawValue + palaceIndex))!
+      let stem = HeavenlyStem.cyclic(at: startStem.rawValue + palaceIndex)
+      let branch = EarthlyBranch.cyclic(at: EarthlyBranch.yin.rawValue + palaceIndex)
       decadals[palaceIndex] = Decadal(
         range: [start, start + 9], stem: stem, branch: branch)
     }

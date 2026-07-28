@@ -4,16 +4,19 @@ Generate deterministic Zi Wei Dou Shu charts with the complete iztro calculation
 
 ## Overview
 
-Use ``Ziwei/chart(solarDate:timeIndex:gender:fixLeap:configuration:astrolabeType:)`` or
-``Ziwei/chart(lunarDate:timeIndex:gender:fixLeap:configuration:astrolabeType:)`` to construct an
+Use ``Ziwei/chart(solarDate:hour:gender:fixLeap:configuration:astrolabeType:)`` or
+``Ziwei/chart(lunarDate:hour:gender:fixLeap:configuration:astrolabeType:)`` to construct an
 ``Astrolabe``. The returned value is immutable, `Codable`, `Equatable`, and
 `Sendable`.
 
 ```swift
 let birthDate = try SolarDate(year: 2000, month: 8, day: 16)
-let chart = try Ziwei.chart(solarDate: birthDate, timeIndex: 2, gender: .female)
+let chart = try Ziwei.chart(solarDate: birthDate, hour: .yin, gender: .female)
 let lifePalace = chart.palace(.life)
-let annual = try chart.horoscope(at: "2026-7-28", timeIndex: 6)
+let annual = try chart.horoscope(
+  at: SolarDate(year: 2026, month: 7, day: 28),
+  hour: .wu
+)
 ```
 
 Calendar calculations use `Asia/Shanghai` and do not depend on the device's
@@ -29,17 +32,30 @@ earth, or human astrolabes. Functional queries are available on ``Astrolabe``,
 
 ## Topics
 
+### Essentials
+
+- <doc:GettingStarted>
+- <doc:DateAndTimeConventions>
+- <doc:Configuration>
+- <doc:CalculatingHoroscopes>
+- <doc:Analysis>
+
 ### Creating a chart
 
 - ``Ziwei``
 - ``Astrolabe``
 - ``SolarDate``
 - ``LunarDate``
+- ``ChineseHour``
 - ``Gender``
 - ``ChartDate``
 - ``ChartOptions``
 - ``ZiweiConfiguration``
 - ``AstrolabeType``
+- ``DivideMode``
+- ``AgeDivideMode``
+- ``DayDivideMode``
+- ``ZiweiAlgorithm``
 
 ### Chart values
 
@@ -53,6 +69,10 @@ earth, or human astrolabes. Functional queries are available on ``Astrolabe``,
 - ``Mutagen``
 - ``FiveElementsClass``
 - ``ChineseDate``
+- ``StemBranch``
+- ``HeavenlyStem``
+- ``EarthlyBranch``
+- ``YinYang``
 - ``SurroundedPalaces``
 
 ### Horoscope
@@ -61,6 +81,8 @@ earth, or human astrolabes. Functional queries are available on ``Astrolabe``,
 - ``HoroscopePeriod``
 - ``AgePeriod``
 - ``YearlyDecoration``
+- ``HoroscopeScope``
+- ``HoroscopePeriodKind``
 
 ### Extensions
 

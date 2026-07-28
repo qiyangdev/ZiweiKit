@@ -1,3 +1,4 @@
+/// A stable, language-neutral identifier for one of the twelve palaces.
 public enum PalaceID: String, Codable, CaseIterable, Sendable {
   case life  // 命宫
   case parents  // 父母
@@ -13,6 +14,7 @@ public enum PalaceID: String, Codable, CaseIterable, Sendable {
   case siblings  // 兄弟
 }
 
+/// One of the four transformations (四化).
 public enum Mutagen: String, Codable, CaseIterable, Sendable {
   case prosperity  // 禄
   case power  // 权
@@ -20,6 +22,37 @@ public enum Mutagen: String, Codable, CaseIterable, Sendable {
   case obstacle  // 忌
 }
 
+extension PalaceID {
+  var cycleIndex: Int {
+    switch self {
+    case .life: 0
+    case .parents: 1
+    case .fortune: 2
+    case .property: 3
+    case .career: 4
+    case .friends: 5
+    case .travel: 6
+    case .health: 7
+    case .wealth: 8
+    case .children: 9
+    case .spouse: 10
+    case .siblings: 11
+    }
+  }
+}
+
+extension Mutagen {
+  var cycleIndex: Int {
+    switch self {
+    case .prosperity: 0
+    case .power: 1
+    case .reputation: 2
+    case .obstacle: 3
+    }
+  }
+}
+
+/// A star's calculated brightness grade within a palace.
 public enum Brightness: String, Codable, CaseIterable, Sendable {
   case temple  // 庙
   case prosperous  // 旺
@@ -30,10 +63,12 @@ public enum Brightness: String, Codable, CaseIterable, Sendable {
   case fallen  // 陷
 }
 
+/// The natal or dynamic period in which a star placement applies.
 public enum StarScope: String, Codable, CaseIterable, Sendable {
   case origin, decadal, yearly, monthly, daily, hourly
 }
 
+/// A stable, language-neutral identifier for every supported star.
 public enum StarID: String, Codable, CaseIterable, Sendable {
   case ziwei  // 紫微
   case tianji  // 天机
@@ -117,6 +152,7 @@ public enum StarID: String, Codable, CaseIterable, Sendable {
   case shiKui, shiYue, shiChang, shiQu, shiLu, shiYang, shiTuo, shiMa, shiLuan, shiXi
 }
 
+/// A stage in the twelve growth phases (长生十二神).
 public enum ChangshengStage: String, Codable, CaseIterable, Sendable {
   case birth  // 长生
   case bathing  // 沐浴
@@ -132,6 +168,7 @@ public enum ChangshengStage: String, Codable, CaseIterable, Sendable {
   case nurture  // 养
 }
 
+/// A stage in the twelve doctor phases (博士十二神).
 public enum BoshiStage: String, Codable, CaseIterable, Sendable {
   case scholar  // 博士
   case strength  // 力士
@@ -147,6 +184,7 @@ public enum BoshiStage: String, Codable, CaseIterable, Sendable {
   case office  // 官府
 }
 
+/// A stage in the twelve year-before decorations (岁前十二神).
 public enum SuiqianStage: String, Codable, CaseIterable, Sendable {
   case yearEstablishment  // 岁建
   case obscurity  // 晦气
@@ -163,6 +201,7 @@ public enum SuiqianStage: String, Codable, CaseIterable, Sendable {
   case illness  // 病符
 }
 
+/// A stage in the twelve general-before decorations (将前十二神).
 public enum JiangqianStage: String, Codable, CaseIterable, Sendable {
   case general  // 将星
   case saddle  // 攀鞍
@@ -178,6 +217,7 @@ public enum JiangqianStage: String, Codable, CaseIterable, Sendable {
   case lostSpirit  // 亡神
 }
 
+/// The kind of dynamic period represented by a horoscope value.
 public enum HoroscopePeriodKind: String, Codable, Sendable {
   case decadal  // 大限
   case childhood  // 童限
@@ -188,6 +228,7 @@ public enum HoroscopePeriodKind: String, Codable, Sendable {
   case hourly  // 流时
 }
 
+/// A western zodiac sign calculated from a Gregorian date.
 public enum WesternZodiac: String, Codable, CaseIterable, Sendable {
   case capricorn  // 摩羯座
   case aquarius  // 水瓶座

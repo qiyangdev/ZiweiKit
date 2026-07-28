@@ -1,3 +1,4 @@
+/// The gender value used to determine directional chart rules.
 public enum Gender: String, Codable, CaseIterable, Sendable {
   case male  // 男
   case female  // 女
@@ -5,6 +6,7 @@ public enum Gender: String, Codable, CaseIterable, Sendable {
   var yinYang: YinYang { self == .male ? .yang : .yin }
 }
 
+/// The five-elements class (五行局) and its associated cycle number.
 public enum FiveElementsClass: Int, Codable, Sendable {
   case water = 2  // 水二局
   case wood = 3  // 木三局
@@ -13,10 +15,12 @@ public enum FiveElementsClass: Int, Codable, Sendable {
   case fire = 6  // 火六局
 }
 
+/// The calculation category assigned to a star.
 public enum StarType: String, Codable, Sendable {
   case major, soft, tough, lucun, tianma, flower, helper, adjective
 }
 
+/// A star placement with its scope, brightness, and optional transformation.
 public struct Star: Codable, Equatable, Sendable {
   public let id: StarID
   public let type: StarType
@@ -36,6 +40,7 @@ public struct Star: Codable, Equatable, Sendable {
   }
 }
 
+/// The age range and stem-branch pair associated with a decadal period.
 public struct Decadal: Codable, Equatable, Sendable {
   public let range: [Int]
   public let stem: HeavenlyStem
@@ -48,6 +53,7 @@ public struct Decadal: Codable, Equatable, Sendable {
   }
 }
 
+/// One of the twelve chart palaces and all calculated values placed in it.
 public struct Palace: Codable, Equatable, Sendable {
   public let index: Int
   public let id: PalaceID
@@ -91,6 +97,7 @@ public struct Palace: Codable, Equatable, Sendable {
   }
 }
 
+/// An immutable natal chart containing its input, pillars, palaces, and stars.
 public struct Astrolabe: Codable, Equatable, Sendable {
   public let configuration: ZiweiConfiguration
   public let astrolabeType: AstrolabeType
@@ -99,7 +106,7 @@ public struct Astrolabe: Codable, Equatable, Sendable {
   public let solarDate: SolarDate
   public let lunarDate: LunarDate
   public let rawChineseDate: ChineseDate
-  public let timeIndex: Int
+  public let hour: ChineseHour
   public let westernZodiac: WesternZodiac
   public let zodiacBranch: EarthlyBranch
   public let soulPalaceBranch: EarthlyBranch
@@ -112,7 +119,7 @@ public struct Astrolabe: Codable, Equatable, Sendable {
   public init(
     configuration: ZiweiConfiguration, astrolabeType: AstrolabeType, fixLeap: Bool,
     gender: Gender, solarDate: SolarDate, lunarDate: LunarDate,
-    rawChineseDate: ChineseDate, timeIndex: Int, westernZodiac: WesternZodiac,
+    rawChineseDate: ChineseDate, hour: ChineseHour, westernZodiac: WesternZodiac,
     zodiacBranch: EarthlyBranch, soulPalaceBranch: EarthlyBranch,
     bodyPalaceBranch: EarthlyBranch, soulStarID: StarID, bodyStarID: StarID,
     fiveElementsClass: FiveElementsClass, palaces: [Palace]
@@ -124,7 +131,7 @@ public struct Astrolabe: Codable, Equatable, Sendable {
     self.solarDate = solarDate
     self.lunarDate = lunarDate
     self.rawChineseDate = rawChineseDate
-    self.timeIndex = timeIndex
+    self.hour = hour
     self.westernZodiac = westernZodiac
     self.zodiacBranch = zodiacBranch
     self.soulPalaceBranch = soulPalaceBranch
@@ -135,6 +142,7 @@ public struct Astrolabe: Codable, Equatable, Sendable {
     self.palaces = palaces
   }
 
+  /// Returns the palace at a zero-based chart index, or `nil` when out of range.
   public func palace(at index: Int) -> Palace? {
     palaces.indices.contains(index) ? palaces[index] : nil
   }
@@ -144,15 +152,10 @@ public struct Astrolabe: Codable, Equatable, Sendable {
     [index, index + 4, index + 6, index + 8].compactMap { palace(at: positiveModulo($0)) }
   }
 
-  public func horoscope(at targetDate: String, timeIndex: Int? = nil) throws -> Horoscope {
-    let resolvedTimeIndex =
-      timeIndex ?? Ziwei.timeIndex(forHour: SolarDate.hour(in: targetDate) ?? 0)
-    return try HoroscopeCalculator.calculate(
-      chart: self, target: SolarDate(targetDate), timeIndex: resolvedTimeIndex)
-  }
-
-  public func horoscope(at targetDate: SolarDate, timeIndex: Int = 0) throws -> Horoscope {
-    try HoroscopeCalculator.calculate(chart: self, target: targetDate, timeIndex: timeIndex)
+  /// Calculates dynamic periods for a target date and traditional hour.
+  public func horoscope(at targetDate: SolarDate, hour: ChineseHour = .earlyZi) throws -> Horoscope
+  {
+    try HoroscopeCalculator.calculate(chart: self, target: targetDate, hour: hour)
   }
 
   public var bodyPalace: Palace? { palaces.first(where: \.isBodyPalace) }

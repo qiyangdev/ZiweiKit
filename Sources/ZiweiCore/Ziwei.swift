@@ -1,51 +1,27 @@
-import Foundation
-
-/// Pure Swift entry point corresponding to iztro's `astro` calculation namespace.
+/// Primary entry point for chart and calendar calculations.
 public enum Ziwei {
-  public static func chart(
-    solarDate date: String, timeIndex: Int, gender: Gender, fixLeap: Bool = true,
-    configuration: ZiweiConfiguration = .default,
-    astrolabeType: AstrolabeType = .heaven
-  ) throws -> Astrolabe {
-    try chart(
-      solarDate: SolarDate(date), timeIndex: timeIndex, gender: gender, fixLeap: fixLeap,
-      configuration: configuration, astrolabeType: astrolabeType)
-  }
-
-  public static func chart(
-    lunarDate date: String, timeIndex: Int, gender: Gender, isLeapMonth: Bool = false,
-    fixLeap: Bool = true, configuration: ZiweiConfiguration = .default,
-    astrolabeType: AstrolabeType = .heaven
-  ) throws -> Astrolabe {
-    return try chart(
-      lunarDate: LunarDate(date, isLeapMonth: isLeapMonth),
-      timeIndex: timeIndex, gender: gender, fixLeap: fixLeap,
-      configuration: configuration, astrolabeType: astrolabeType)
-  }
-
+  /// Creates a chart from a complete set of options.
   public static func chart(options: ChartOptions) throws -> Astrolabe {
     switch options.date {
     case .solar(let date):
       return try chart(
-        solarDate: date, timeIndex: options.timeIndex, gender: options.gender,
+        solarDate: date, hour: options.hour, gender: options.gender,
         fixLeap: options.fixLeap, configuration: options.configuration,
         astrolabeType: options.astrolabeType)
     case .lunar(let date):
       return try chart(
-        lunarDate: date, timeIndex: options.timeIndex, gender: options.gender,
+        lunarDate: date, hour: options.hour, gender: options.gender,
         fixLeap: options.fixLeap, configuration: options.configuration,
         astrolabeType: options.astrolabeType)
     }
   }
 
+  /// Converts a validated Gregorian date to its lunar-calendar date.
   public static func lunarDate(fromSolar date: SolarDate) throws -> LunarDate {
     try CalendarEngine.solarToLunar(date)
   }
 
-  public static func lunarDate(fromSolar date: String) throws -> LunarDate {
-    try lunarDate(fromSolar: SolarDate(date))
-  }
-
+  /// Converts a validated lunar date to its Gregorian date.
   public static func solarDate(fromLunar lunar: LunarDate) throws -> SolarDate {
     do {
       return try CalendarEngine.lunarToSolar(lunar)
@@ -55,72 +31,73 @@ public enum Ziwei {
     }
   }
 
+  /// Calculates the four pillars for a Gregorian date and traditional hour.
   public static func chineseDate(
     forSolarDate solar: SolarDate,
-    timeIndex: Int,
+    hour: ChineseHour,
     configuration: ZiweiConfiguration = .default
   ) throws -> ChineseDate {
-    guard (0...12).contains(timeIndex) else { throw ZiweiError.invalidTimeIndex(timeIndex) }
     let lunar = try CalendarEngine.solarToLunar(solar)
-    let calculationTimeIndex =
-      configuration.dayDivide == .current && timeIndex == 12 ? 0 : timeIndex
+    let calculationHour: ChineseHour =
+      configuration.dayDivide == .current && hour == .lateZi ? .earlyZi : hour
     return try CalendarEngine.chineseDate(
       solar: solar,
       lunar: lunar,
-      timeIndex: calculationTimeIndex,
+      hour: calculationHour,
       yearDivide: configuration.yearDivide,
       monthDivide: configuration.horoscopeDivide,
       dayDivide: configuration.dayDivide)
   }
 
-  public static func chineseDate(
-    forSolarDate date: String,
-    timeIndex: Int,
-    configuration: ZiweiConfiguration = .default
-  ) throws -> ChineseDate {
-    try chineseDate(
-      forSolarDate: SolarDate(date), timeIndex: timeIndex, configuration: configuration)
-  }
-
+  /// Calculates the five-elements class for a stem-branch pair.
   public static func fiveElementsClass(
     heavenlyStem: HeavenlyStem, earthlyBranch: EarthlyBranch
   ) -> FiveElementsClass {
     Algorithms.fiveElements(stem: heavenlyStem, branch: earthlyBranch)
   }
 
+  /// Creates an immutable chart from a Gregorian date.
+  ///
+  /// - Parameters:
+  ///   - solar: The validated birth date.
+  ///   - hour: The traditional two-hour birth period.
+  ///   - gender: The gender used by directional rules.
+  ///   - fixLeap: Whether the latter half of a leap month advances the month index.
+  ///   - configuration: Per-chart calculation settings.
+  ///   - astrolabeType: The palace frame to construct.
+  /// - Throws: ``ZiweiError`` when calendar conversion cannot represent the input.
   public static func chart(
     solarDate solar: SolarDate,
-    timeIndex: Int,
+    hour: ChineseHour,
     gender: Gender,
     fixLeap: Bool = true,
     configuration: ZiweiConfiguration = .default,
     astrolabeType: AstrolabeType = .heaven
   ) throws -> Astrolabe {
-    guard (0...12).contains(timeIndex) else { throw ZiweiError.invalidTimeIndex(timeIndex) }
-    let calculationTimeIndex =
-      configuration.dayDivide == .current && timeIndex == 12
-      ? 0 : timeIndex
+    let calculationHour: ChineseHour =
+      configuration.dayDivide == .current && hour == .lateZi
+      ? .earlyZi : hour
     let lunar = try CalendarEngine.solarToLunar(solar)
     let year = CalendarEngine.yearPillar(
       solar: solar, lunar: lunar, divide: configuration.yearDivide)
     let horoscopeYear = CalendarEngine.yearPillar(
       solar: solar, lunar: lunar, divide: configuration.horoscopeDivide)
     let chineseDate = try CalendarEngine.chineseDate(
-      solar: solar, lunar: lunar, timeIndex: calculationTimeIndex,
+      solar: solar, lunar: lunar, hour: calculationHour,
       yearDivide: configuration.yearDivide, monthDivide: configuration.horoscopeDivide,
       dayDivide: configuration.dayDivide)
     let soulBody = Algorithms.soulAndBody(
-      lunar: lunar, timeIndex: calculationTimeIndex, year: year, fixLeap: fixLeap)
+      lunar: lunar, hour: calculationHour, year: year, fixLeap: fixLeap)
     let five = Algorithms.fiveElements(stem: soulBody.stemOfSoul, branch: soulBody.branchOfSoul)
     let palaceIDs = Algorithms.palaceIDs(soulIndex: soulBody.soulIndex)
     let majors = try Algorithms.majorStars(
-      solar: solar, lunar: lunar, timeIndex: calculationTimeIndex, fixLeap: fixLeap,
+      solar: solar, lunar: lunar, hour: calculationHour, fixLeap: fixLeap,
       soulBody: soulBody, year: year, configuration: configuration)
     let minors = Algorithms.minorStars(
-      lunar: lunar, timeIndex: calculationTimeIndex, fixLeap: fixLeap, year: year,
+      lunar: lunar, hour: calculationHour, fixLeap: fixLeap, year: year,
       configuration: configuration)
     let adjectives = Algorithms.adjectiveStars(
-      lunar: lunar, timeIndex: calculationTimeIndex, fixLeap: fixLeap, gender: gender,
+      lunar: lunar, hour: calculationHour, fixLeap: fixLeap, gender: gender,
       year: horoscopeYear,
       soulBody: soulBody, algorithm: configuration.algorithm)
     let changsheng = Algorithms.changsheng12(five: five, gender: gender, yearBranch: year.branch)
@@ -130,9 +107,9 @@ public enum Ziwei {
     let horoscope = Algorithms.horoscope(gender: gender, year: year, soulBody: soulBody, five: five)
 
     let palaces = (0..<12).map { index in
-      let stem = HeavenlyStem(
-        rawValue: positiveModulo(soulBody.stemOfSoul.rawValue - soulBody.soulIndex + index, 10))!
-      let branch = EarthlyBranch(rawValue: positiveModulo(EarthlyBranch.yin.rawValue + index))!
+      let stem = HeavenlyStem.cyclic(
+        at: soulBody.stemOfSoul.rawValue - soulBody.soulIndex + index)
+      let branch = EarthlyBranch.cyclic(at: EarthlyBranch.yin.rawValue + index)
       return Palace(
         index: index,
         id: palaceIDs[index],
@@ -152,8 +129,8 @@ public enum Ziwei {
       )
     }
 
-    let soulBranch = EarthlyBranch(rawValue: positiveModulo(soulBody.soulIndex + 2))!
-    let bodyBranch = EarthlyBranch(rawValue: positiveModulo(soulBody.bodyIndex + 2))!
+    let soulBranch = EarthlyBranch.cyclic(at: soulBody.soulIndex + 2)
+    let bodyBranch = EarthlyBranch.cyclic(at: soulBody.bodyIndex + 2)
     let chart = Astrolabe(
       configuration: configuration,
       astrolabeType: astrolabeType,
@@ -162,7 +139,7 @@ public enum Ziwei {
       solarDate: solar,
       lunarDate: lunar,
       rawChineseDate: chineseDate,
-      timeIndex: timeIndex,
+      hour: hour,
       westernZodiac: westernZodiac(month: solar.month, day: solar.day),
       zodiacBranch: year.branch,
       soulPalaceBranch: soulBranch,
@@ -176,9 +153,19 @@ public enum Ziwei {
     return astrolabeType == .heaven ? chart : try rearrange(chart, as: astrolabeType)
   }
 
+  /// Creates an immutable chart from a lunar date.
+  ///
+  /// - Parameters:
+  ///   - lunar: The validated lunar birth date.
+  ///   - hour: The traditional two-hour birth period.
+  ///   - gender: The gender used by directional rules.
+  ///   - fixLeap: Whether the latter half of a leap month advances the month index.
+  ///   - configuration: Per-chart calculation settings.
+  ///   - astrolabeType: The palace frame to construct.
+  /// - Throws: ``ZiweiError`` when calendar conversion cannot represent the input.
   public static func chart(
     lunarDate lunar: LunarDate,
-    timeIndex: Int,
+    hour: ChineseHour,
     gender: Gender,
     fixLeap: Bool = true,
     configuration: ZiweiConfiguration = .default,
@@ -194,10 +181,11 @@ public enum Ziwei {
         LunarDate(uncheckedYear: lunar.year, month: lunar.month, day: lunar.day))
     }
     return try chart(
-      solarDate: solar, timeIndex: timeIndex, gender: gender, fixLeap: fixLeap,
+      solarDate: solar, hour: hour, gender: gender, fixLeap: fixLeap,
       configuration: configuration, astrolabeType: astrolabeType)
   }
 
+  /// Returns the zodiac branch for a Gregorian date.
   public static func zodiacBranch(
     forSolarDate solar: SolarDate, divide: DivideMode = .normal
   ) throws -> EarthlyBranch {
@@ -205,25 +193,9 @@ public enum Ziwei {
     return CalendarEngine.yearPillar(solar: solar, lunar: lunar, divide: divide).branch
   }
 
-  public static func zodiacBranch(
-    forSolarDate date: String, divide: DivideMode = .normal
-  ) throws -> EarthlyBranch {
-    try zodiacBranch(forSolarDate: SolarDate(date), divide: divide)
-  }
-
+  /// Returns the western zodiac sign for a Gregorian date.
   public static func westernZodiac(forSolarDate date: SolarDate) -> WesternZodiac {
     westernZodiac(month: date.month, day: date.day)
-  }
-
-  public static func westernZodiac(forSolarDate date: String) throws -> WesternZodiac {
-    westernZodiac(forSolarDate: try SolarDate(date))
-  }
-
-  /// Converts a wall-clock hour to iztro's 0...12 time index.
-  public static func timeIndex(forHour hour: Int) -> Int {
-    if hour == 0 { return 0 }
-    if hour == 23 { return 12 }
-    return max(0, min(11, (hour + 1) / 2))
   }
 
   private static func westernZodiac(month: Int, day: Int) -> WesternZodiac {
@@ -249,17 +221,17 @@ public enum Ziwei {
     let sourceStem = sourcePalace.stem
     let sourceBranch = sourcePalace.branch
 
-    let calculationTimeIndex =
-      chart.configuration.dayDivide == .current && chart.timeIndex == 12
-      ? 0 : chart.timeIndex
+    let calculationHour: ChineseHour =
+      chart.configuration.dayDivide == .current && chart.hour == .lateZi
+      ? .earlyZi : chart.hour
     let year = CalendarEngine.yearPillar(
       solar: chart.solarDate, lunar: chart.lunarDate, divide: chart.configuration.yearDivide)
     let soulBody = Algorithms.soulAndBody(
-      from: sourceBranch, timeIndex: calculationTimeIndex, year: year)
+      from: sourceBranch, hour: calculationHour, year: year)
     let five = Algorithms.fiveElements(stem: sourceStem, branch: sourceBranch)
     let palaceIDs = Algorithms.palaceIDs(soulIndex: soulBody.soulIndex)
     let majors = try Algorithms.majorStars(
-      solar: chart.solarDate, lunar: chart.lunarDate, timeIndex: calculationTimeIndex,
+      solar: chart.solarDate, lunar: chart.lunarDate, hour: calculationHour,
       fixLeap: chart.fixLeap, soulBody: soulBody, year: year, configuration: chart.configuration)
     let changsheng = Algorithms.changsheng12(
       five: five, gender: chart.gender, yearBranch: year.branch)
@@ -268,10 +240,8 @@ public enum Ziwei {
 
     let tiancaiIndex = positiveModulo(
       soulBody.soulIndex + chart.rawChineseDate.yearly.branch.rawValue)
-    var tianshangIndex = positiveModulo(
-      Constants.palaceIDs.firstIndex(of: .friends)! + soulBody.soulIndex)
-    var tianshiIndex = positiveModulo(
-      Constants.palaceIDs.firstIndex(of: .health)! + soulBody.soulIndex)
+    var tianshangIndex = positiveModulo(PalaceID.friends.cycleIndex + soulBody.soulIndex)
+    var tianshiIndex = positiveModulo(PalaceID.health.cycleIndex + soulBody.soulIndex)
     let sameYinYang = year.branch.rawValue % 2 == (chart.gender == .male ? 0 : 1)
     if chart.configuration.algorithm == .zhongzhou && !sameYinYang {
       swap(&tianshangIndex, &tianshiIndex)
@@ -317,7 +287,7 @@ public enum Ziwei {
       solarDate: chart.solarDate,
       lunarDate: chart.lunarDate,
       rawChineseDate: chart.rawChineseDate,
-      timeIndex: chart.timeIndex,
+      hour: chart.hour,
       westernZodiac: chart.westernZodiac,
       zodiacBranch: chart.zodiacBranch,
       soulPalaceBranch: sourceBranch,

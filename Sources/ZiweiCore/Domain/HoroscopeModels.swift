@@ -1,5 +1,7 @@
+/// A scope used when querying natal or dynamic star placements.
 public typealias HoroscopeScope = StarScope
 
+/// A dynamic period such as a decadal, yearly, monthly, daily, or hourly period.
 public struct HoroscopePeriod: Codable, Equatable, Sendable {
   public let index: Int
   public let kind: HoroscopePeriodKind
@@ -26,6 +28,7 @@ public struct HoroscopePeriod: Codable, Equatable, Sendable {
   }
 }
 
+/// The nominal-age period active on the target date.
 public struct AgePeriod: Codable, Equatable, Sendable {
   public let index: Int
   public let nominalAge: Int
@@ -47,6 +50,7 @@ public struct AgePeriod: Codable, Equatable, Sendable {
   }
 }
 
+/// All dynamic periods calculated for a target date.
 public struct Horoscope: Codable, Equatable, Sendable {
   public let solarDate: SolarDate
   public let lunarDate: LunarDate
@@ -73,6 +77,7 @@ public struct Horoscope: Codable, Equatable, Sendable {
   }
 }
 
+/// The yearly general-before and year-before decoration cycles.
 public struct YearlyDecoration: Codable, Equatable, Sendable {
   public let jiangqian12: [JiangqianStage]
   public let suiqian12: [SuiqianStage]
