@@ -7,6 +7,18 @@ ZiweiKit is a pure Swift port of the calculation layer from
 depends only on Foundation at runtime, embeds no JavaScript, and supports iOS,
 macOS, tvOS, watchOS, and visionOS.
 
+## Installation
+
+Add `https://github.com/qiyangdev/ZiweiKit.git` as a Swift Package Dependency
+and select **Up to Next Major Version** starting from `0.1.0`. In a
+`Package.swift` manifest:
+
+```swift
+dependencies: [
+  .package(url: "https://github.com/qiyangdev/ZiweiKit.git", from: "0.1.0")
+]
+```
+
 ```swift
 import ZiweiKit
 
@@ -103,7 +115,8 @@ Public models use strongly typed identifiers such as `PalaceID`, `StarID`,
 `StarScope`, `Brightness`, and `Mutagen`. The product target contains no
 localized runtime names or string-based query interfaces. Dates are validated
 both during construction and `Codable` decoding, and serialization uses stable
-English enumeration values.
+English enumeration values. Decoding also rejects malformed chart structures,
+such as missing palaces or incomplete dynamic-star rows.
 
 The original runtime plugin mechanism maps to `AstrolabePlugin`,
 `chart.use(_:)`, `chart.analyze(_:)`, and ordinary Swift extensions. No global
@@ -136,6 +149,11 @@ solar-term boundaries, leap months, the late rat period, custom configuration,
 Zhongzhou heaven/earth/human charts, solar and lunar entry points, and the
 functional analyzers.
 
+Calculation entry points intentionally support Gregorian years `1901...2099`,
+the range covered by the committed compatibility and calendar tests. Dates may
+represent other years, but attempting a chart, conversion, pillar, or horoscope
+calculation outside that range throws `ZiweiError.unsupportedYear`.
+
 ## Time Convention
 
 Calendar calculations always use `Asia/Shanghai`, preventing the device time
@@ -143,6 +161,10 @@ zone from changing chart results. Hours use the strongly typed `ChineseHour`;
 `.earlyZi` and `.lateZi` distinguish the early and late rat periods.
 `ChineseHour(clockHour:)` converts a clock hour in `0...23` to its traditional
 two-hour period.
+
+## License
+
+ZiweiKit is available under the [MIT License](LICENSE).
 
 ## Upstream License
 

@@ -62,7 +62,8 @@ enum Algorithms {
     _ id: StarID, at index: Int, configuration: ZiweiConfiguration
   ) -> Brightness? {
     if let values = configuration.brightness[id], !values.isEmpty {
-      return values[positiveModulo(index)]
+      let palaceIndex = positiveModulo(index)
+      return values.indices.contains(palaceIndex) ? values[palaceIndex] : nil
     }
     guard let values = Constants.brightness[id], !values.isEmpty else { return nil }
     return values[positiveModulo(index)]

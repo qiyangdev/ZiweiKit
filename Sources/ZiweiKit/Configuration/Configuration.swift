@@ -73,6 +73,16 @@ public struct ZiweiConfiguration: Codable, Equatable, Sendable {
 
   public static let `default` = ZiweiConfiguration()
 
+  /// Rejects custom tables whose row lengths cannot represent all transformations or palaces.
+  public func validate() throws {
+    for (stem, stars) in mutagens where stars.count != Mutagen.allCases.count {
+      throw ZiweiError.invalidMutagenCount(stem: stem, actual: stars.count)
+    }
+    for (star, values) in brightness where !values.isEmpty && values.count != 12 {
+      throw ZiweiError.invalidBrightnessCount(star: star, actual: values.count)
+    }
+  }
+
   public func mutagenStars(for stem: HeavenlyStem) -> [StarID] {
     mutagens[stem] ?? Constants.mutagens[stem.rawValue]
   }

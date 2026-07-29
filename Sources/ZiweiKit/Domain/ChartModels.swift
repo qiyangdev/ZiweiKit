@@ -46,11 +46,6 @@ public struct Decadal: Codable, Equatable, Sendable {
   public let stem: HeavenlyStem
   public let branch: EarthlyBranch
 
-  public init(range: [Int], stem: HeavenlyStem, branch: EarthlyBranch) {
-    self.range = range
-    self.stem = stem
-    self.branch = branch
-  }
 }
 
 /// One of the twelve chart palaces and all calculated values placed in it.
@@ -73,7 +68,7 @@ public struct Palace: Codable, Equatable, Sendable {
 
   public var stars: [Star] { majorStars + minorStars + adjectiveStars }
 
-  public init(
+  init(
     index: Int, id: PalaceID, isBodyPalace: Bool, isOriginalPalace: Bool,
     stem: HeavenlyStem, branch: EarthlyBranch, majorStars: [Star], minorStars: [Star],
     adjectiveStars: [Star], changsheng12: ChangshengStage, boshi12: BoshiStage,
@@ -116,7 +111,7 @@ public struct Astrolabe: Codable, Equatable, Sendable {
   public let fiveElementsClass: FiveElementsClass
   public let palaces: [Palace]
 
-  public init(
+  init(
     configuration: ZiweiConfiguration, astrolabeType: AstrolabeType, fixLeap: Bool,
     gender: Gender, solarDate: SolarDate, lunarDate: LunarDate,
     rawChineseDate: ChineseDate, hour: ChineseHour, westernZodiac: WesternZodiac,

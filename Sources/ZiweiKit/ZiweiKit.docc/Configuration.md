@@ -46,4 +46,6 @@ let configuration = ZiweiConfiguration(
 
 An omitted stem or star falls back to the built-in table. A custom mutagen row
 must contain four stars, and a nonempty custom brightness row must contain 12
-values in palace-index order.
+values in palace-index order. ``ZiweiConfiguration/validate()`` checks these
+requirements, and chart and horoscope calculation entry points validate
+automatically before using a configuration.

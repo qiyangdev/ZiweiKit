@@ -6,6 +6,17 @@ ZiweiKit 是 [iztro](https://github.com/SylarLong/iztro) 计算层的纯 Swift
 移植，以 Swift Package 形式提供。运行时只依赖 Foundation，不嵌入 JavaScript，支持
 iOS、macOS、tvOS、watchOS 和 visionOS。
 
+## 安装
+
+在 Xcode 中添加 `https://github.com/qiyangdev/ZiweiKit.git`，并选择从 `0.1.0`
+开始的 **Up to Next Major Version**。也可以在 `Package.swift` 中声明：
+
+```swift
+dependencies: [
+  .package(url: "https://github.com/qiyangdev/ZiweiKit.git", from: "0.1.0")
+]
+```
+
 ```swift
 import ZiweiKit
 
@@ -96,7 +107,8 @@ open Examples/ZiweiKitExample/ZiweiKitExample.xcodeproj
 
 公开模型使用 `PalaceID`、`StarID`、`StarScope`、`Brightness` 和 `Mutagen`
 等强类型标识，产品 target 不包含中文运行时名称或字符串查询接口。日期值在构造及
-`Codable` 解码时都会校验；序列化使用稳定的英文枚举值。
+`Codable` 解码时都会校验；序列化使用稳定的英文枚举值。解码也会拒绝缺少宫位、
+索引重复或动态星曜行不完整等畸形结构。
 
 原版运行时插件在 Swift 中对应 `AstrolabePlugin`、`chart.use(_:)`、
 `chart.analyze(_:)` 和常规 Swift extension，不引入全局注入。名称、本地化和日期格式化属于
@@ -125,11 +137,19 @@ npm run generate
 1901–2099、春节与节气边界、闰月、晚子时、自定义配置、中州派天/地/人盘、
 公历与农历入口，以及功能分析器。
 
+计算入口明确支持公历 `1901...2099`，这也是提交到仓库的兼容性与历法测试覆盖范围。
+日期值可以表示其他年份，但在范围外排盘、转换日期、计算四柱或运限会抛出
+`ZiweiError.unsupportedYear`。
+
 ## 时间约定
 
 历法计算固定使用 `Asia/Shanghai`，以避免调用设备时区改变排盘。时辰使用
 `ChineseHour` 强类型表示，其中 `.earlyZi` 和 `.lateZi` 分别表示早子时和晚子时；也可以
 通过 `ChineseHour(clockHour:)` 将 `0...23` 的钟点转换为对应时辰。
+
+## 许可证
+
+ZiweiKit 使用 [MIT License](LICENSE)。
 
 ## 上游许可
 

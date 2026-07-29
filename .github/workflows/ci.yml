@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Build and test Swift package
+        run: swift test
+
+      - name: Build iOS example
+        run: |
+          xcodebuild \
+            -project Examples/ZiweiKitExample/ZiweiKitExample.xcodeproj \
+            -scheme ZiweiKitExample \
+            -configuration Debug \
+            -destination "generic/platform=iOS Simulator" \
+            -derivedDataPath "$RUNNER_TEMP/ZiweiKitExampleDerivedData" \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Validate DocC
+        run: |
+          mkdir -p "$RUNNER_TEMP/symbol-graphs"
+          swift build \
+            -Xswiftc -emit-symbol-graph \
+            -Xswiftc -emit-symbol-graph-dir \
+            -Xswiftc "$RUNNER_TEMP/symbol-graphs"
+          xcrun docc convert Sources/ZiweiKit/ZiweiKit.docc \
+            --additional-symbol-graph-dir "$RUNNER_TEMP/symbol-graphs" \
+            --output-path "$RUNNER_TEMP/ZiweiKit.doccarchive" \
+            --fallback-display-name ZiweiKit \
+            --fallback-bundle-identifier dev.qiyang.ZiweiKit \
+            --fallback-bundle-version 1.0 \
+            --fallback-default-module-kind Library \
+            --warnings-as-errors

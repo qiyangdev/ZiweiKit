@@ -2,6 +2,9 @@
 public enum ZiweiError: Error, Equatable, Sendable {
   case invalidDate(String)
   case unsupportedLunarDate(year: Int, month: Int, day: Int, isLeapMonth: Bool)
+  case unsupportedYear(Int)
+  case invalidMutagenCount(stem: HeavenlyStem, actual: Int)
+  case invalidBrightnessCount(star: StarID, actual: Int)
 }
 
 /// The yin-yang quality used by stems, branches, and chart direction rules.
@@ -127,9 +130,7 @@ public struct SolarDate: Codable, Equatable, Hashable, Sendable, CustomStringCon
 
   /// Parses the date portion of a string using `-`, `.`, or `/` separators.
   public init(_ value: String) throws {
-    let datePart = value.split(whereSeparator: \.isWhitespace).first ?? ""
-    let values = datePart.split(whereSeparator: { "-./".contains($0) }).compactMap { Int($0) }
-    guard values.count >= 3 else { throw ZiweiError.invalidDate(value) }
+    let values = try parseDateComponents(value)
     try self.init(year: values[0], month: values[1], day: values[2])
   }
 
@@ -182,9 +183,7 @@ public struct LunarDate: Codable, Equatable, Sendable {
 
   /// Parses a lunar date using `-`, `.`, or `/` separators.
   public init(_ value: String, isLeapMonth: Bool = false) throws {
-    let datePart = value.split(whereSeparator: \.isWhitespace).first ?? ""
-    let values = datePart.split(whereSeparator: { "-./".contains($0) }).compactMap { Int($0) }
-    guard values.count >= 3 else { throw ZiweiError.invalidDate(value) }
+    let values = try parseDateComponents(value)
     try self.init(
       year: values[0], month: values[1], day: values[2], isLeapMonth: isLeapMonth)
   }
@@ -214,6 +213,20 @@ public struct LunarDate: Codable, Equatable, Sendable {
     try values.encode(day, forKey: .day)
     try values.encode(isLeapMonth, forKey: .isLeapMonth)
   }
+}
+
+private func parseDateComponents(_ value: String) throws -> [Int] {
+  let datePart = value.split(whereSeparator: \.isWhitespace).first ?? ""
+  let components = datePart.split(omittingEmptySubsequences: false) { "-./".contains($0) }
+  guard components.count == 3,
+    components.allSatisfy({ !$0.isEmpty }),
+    components.allSatisfy({ $0.allSatisfy(\.isNumber) })
+  else {
+    throw ZiweiError.invalidDate(value)
+  }
+  let values = components.compactMap { Int($0) }
+  guard values.count == 3 else { throw ZiweiError.invalidDate(value) }
+  return values
 }
 
 extension HeavenlyStem {

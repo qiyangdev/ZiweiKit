@@ -1,5 +1,8 @@
 /// Primary entry point for chart and calendar calculations.
 public enum Ziwei {
+  /// Gregorian years covered by the committed parity and calendar-boundary fixtures.
+  public static let supportedYearRange = 1901...2099
+
   /// Creates a chart from a complete set of options.
   public static func chart(options: ChartOptions) throws -> Astrolabe {
     switch options.date {
@@ -18,17 +21,21 @@ public enum Ziwei {
 
   /// Converts a validated Gregorian date to its lunar-calendar date.
   public static func lunarDate(fromSolar date: SolarDate) throws -> LunarDate {
-    try CalendarEngine.solarToLunar(date)
+    try validateSupportedYear(date.year)
+    return try CalendarEngine.solarToLunar(date)
   }
 
   /// Converts a validated lunar date to its Gregorian date.
   public static func solarDate(fromLunar lunar: LunarDate) throws -> SolarDate {
+    let solar: SolarDate
     do {
-      return try CalendarEngine.lunarToSolar(lunar)
+      solar = try CalendarEngine.lunarToSolar(lunar)
     } catch  where lunar.isLeapMonth {
-      return try CalendarEngine.lunarToSolar(
+      solar = try CalendarEngine.lunarToSolar(
         LunarDate(uncheckedYear: lunar.year, month: lunar.month, day: lunar.day))
     }
+    try validateSupportedYear(solar.year)
+    return solar
   }
 
   /// Calculates the four pillars for a Gregorian date and traditional hour.
@@ -37,6 +44,8 @@ public enum Ziwei {
     hour: ChineseHour,
     configuration: ZiweiConfiguration = .default
   ) throws -> ChineseDate {
+    try validateSupportedYear(solar.year)
+    try configuration.validate()
     let lunar = try CalendarEngine.solarToLunar(solar)
     let calculationHour: ChineseHour =
       configuration.dayDivide == .current && hour == .lateZi ? .earlyZi : hour
@@ -74,6 +83,8 @@ public enum Ziwei {
     configuration: ZiweiConfiguration = .default,
     astrolabeType: AstrolabeType = .heaven
   ) throws -> Astrolabe {
+    try validateSupportedYear(solar.year)
+    try configuration.validate()
     let calculationHour: ChineseHour =
       configuration.dayDivide == .current && hour == .lateZi
       ? .earlyZi : hour
@@ -189,6 +200,7 @@ public enum Ziwei {
   public static func zodiacBranch(
     forSolarDate solar: SolarDate, divide: DivideMode = .normal
   ) throws -> EarthlyBranch {
+    try validateSupportedYear(solar.year)
     let lunar = try CalendarEngine.solarToLunar(solar)
     return CalendarEngine.yearPillar(solar: solar, lunar: lunar, divide: divide).branch
   }
@@ -205,6 +217,10 @@ public enum Ziwei {
       .cancer, .leo, .virgo, .libra, .scorpio, .sagittarius, .capricorn,
     ]
     return day < bounds[month - 1] ? signs[month - 1] : signs[month]
+  }
+
+  static func validateSupportedYear(_ year: Int) throws {
+    guard supportedYearRange.contains(year) else { throw ZiweiError.unsupportedYear(year) }
   }
 
   private static func rearrange(_ chart: Astrolabe, as type: AstrolabeType) throws -> Astrolabe {

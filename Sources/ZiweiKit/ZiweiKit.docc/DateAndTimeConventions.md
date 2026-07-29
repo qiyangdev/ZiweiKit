@@ -51,5 +51,6 @@ month for chart placement while retaining the validated lunar date. The late
 rat period is excluded from this month adjustment. Disable `fixLeap` only when
 reproducing a convention that does not apply the adjustment.
 
-The parity fixtures exercise calendar and solar-term boundaries from 1901
-through 2099. Treat dates outside that tested range as unverified.
+The parity fixtures and full calendar round-trip suite exercise years 1901
+through 2099. Calculation entry points reject dates outside
+``Ziwei/supportedYearRange`` with ``ZiweiError/unsupportedYear(_:)``.

@@ -29,5 +29,8 @@ let hasStar = horoscope.containsAnyHoroscopeStars(
 )
 ```
 
-The `.origin` scope queries natal placement. Other ``HoroscopeScope`` values
-query their corresponding dynamic period.
+The scope selects the palace-name mapping. To preserve iztro's functional
+analyzer semantics, horoscope-star predicates merge decadal and yearly dynamic
+stars after resolving that mapping. Mutagen predicates use the selected
+period's transformation table. The `.origin` scope queries natal palace
+placement and does not have a dynamic mutagen table.

@@ -1,6 +1,8 @@
 enum HoroscopeCalculator {
   static func calculate(chart: Astrolabe, target: SolarDate, hour: ChineseHour) throws -> Horoscope
   {
+    try Ziwei.validateSupportedYear(target.year)
+    try chart.configuration.validate()
     let configuration = chart.configuration
     let calculationHour: ChineseHour =
       configuration.dayDivide == .current && hour == .lateZi
