@@ -32,11 +32,11 @@ struct ChartSummaryView: View {
     List {
       Section("Example chart") {
         LabeledContent("Solar date", value: chart.solarDate.description)
-        LabeledContent("Gender", value: chart.gender.rawValue)
-        LabeledContent("Five-elements class", value: String(describing: chart.fiveElementsClass))
-        LabeledContent("Western zodiac", value: chart.westernZodiac.rawValue)
-        LabeledContent("Soul star", value: chart.soulStarID.rawValue)
-        LabeledContent("Body star", value: chart.bodyStarID.rawValue)
+        LabeledContent("Gender", value: chart.gender.localizedName)
+        LabeledContent("Five-elements class", value: chart.fiveElementsClass.localizedName)
+        LabeledContent("Western zodiac", value: chart.westernZodiac.localizedName)
+        LabeledContent("Soul star", value: chart.soulStarID.localizedName)
+        LabeledContent("Body star", value: chart.bodyStarID.localizedName)
       }
 
       Section("Palaces") {
@@ -80,9 +80,9 @@ private struct PalaceRow: View {
 
   var body: some View {
     VStack(alignment: .leading, spacing: 4) {
-      Text(palace.id.rawValue)
+      Text(palace.id.localizedName)
         .font(.headline)
-      Text(palace.stars.map(\.id.rawValue).joined(separator: ", "))
+      Text(palace.stars.map { $0.id.localizedName }.joined(separator: localizedListSeparator))
         .font(.caption)
         .foregroundStyle(.secondary)
         .lineLimit(2)
@@ -97,27 +97,27 @@ private struct PalaceDetailView: View {
   var body: some View {
     List {
       Section("Palace") {
-        LabeledContent("Identifier", value: palace.id.rawValue)
-        LabeledContent("Heavenly stem", value: String(describing: palace.stem))
-        LabeledContent("Earthly branch", value: String(describing: palace.branch))
-        LabeledContent("Body palace", value: palace.isBodyPalace ? "Yes" : "No")
+        LabeledContent("Name", value: palace.id.localizedName)
+        LabeledContent("Heavenly stem", value: palace.stem.localizedName)
+        LabeledContent("Earthly branch", value: palace.branch.localizedName)
+        LabeledContent("Body palace", value: palace.isBodyPalace ? localizedYes : localizedNo)
       }
 
       starSection("Major stars", stars: palace.majorStars)
       starSection("Minor stars", stars: palace.minorStars)
       starSection("Adjective stars", stars: palace.adjectiveStars)
     }
-    .navigationTitle(palace.id.rawValue)
+    .navigationTitle(palace.id.localizedName)
   }
 
-  private func starSection(_ title: String, stars: [Star]) -> some View {
+  private func starSection(_ title: LocalizedStringKey, stars: [Star]) -> some View {
     Section(title) {
       if stars.isEmpty {
         Text("None")
           .foregroundStyle(.secondary)
       } else {
         ForEach(stars, id: \.id) { star in
-          LabeledContent(star.id.rawValue, value: star.type.rawValue)
+          LabeledContent(star.id.localizedName, value: star.type.localizedName)
         }
       }
     }

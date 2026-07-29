@@ -10,12 +10,16 @@
 		A10000000000000000000001 /* ZiweiKitExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000011 /* ZiweiKitExampleApp.swift */; };
 		A10000000000000000000002 /* ChartSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000012 /* ChartSummaryView.swift */; };
 		A10000000000000000000003 /* ZiweiKit in Frameworks */ = {isa = PBXBuildFile; productRef = A10000000000000000000041 /* ZiweiKit */; };
+		A10000000000000000000004 /* LocalizedDisplayNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000013 /* LocalizedDisplayNames.swift */; };
+		A10000000000000000000005 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000014 /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A10000000000000000000010 /* ZiweiKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZiweiKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A10000000000000000000011 /* ZiweiKitExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZiweiKitExampleApp.swift; sourceTree = "<group>"; };
 		A10000000000000000000012 /* ChartSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartSummaryView.swift; sourceTree = "<group>"; };
+		A10000000000000000000013 /* LocalizedDisplayNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedDisplayNames.swift; sourceTree = "<group>"; };
+		A10000000000000000000014 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +47,8 @@
 			children = (
 				A10000000000000000000011 /* ZiweiKitExampleApp.swift */,
 				A10000000000000000000012 /* ChartSummaryView.swift */,
+				A10000000000000000000013 /* LocalizedDisplayNames.swift */,
+				A10000000000000000000014 /* Localizable.xcstrings */,
 			);
 			path = ZiweiKitExample;
 			sourceTree = "<group>";
@@ -99,6 +105,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				"zh-Hans",
 				Base,
 			);
 			mainGroup = A10000000000000000000030;
@@ -119,6 +126,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A10000000000000000000005 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,6 +139,7 @@
 			files = (
 				A10000000000000000000001 /* ZiweiKitExampleApp.swift in Sources */,
 				A10000000000000000000002 /* ChartSummaryView.swift in Sources */,
+				A10000000000000000000004 /* LocalizedDisplayNames.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
